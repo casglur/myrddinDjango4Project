@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+{% load static %}
+{% load flatpages %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description"
+	content="A digital edition of the complete letters of Elizabeth Montagu.">
+<title>{% block title %}{% endblock %}{{ flatpage.title }} - at Elizabeth Montagu Correspondence Online (EMCO)</title>
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }}">
+<meta itemprop="description" content="A digital edition of the complete letters of Elizabeth Montagu 1718-1800 - ISSN 2753-9091">
+<meta itemprop="image" content="http://emco.swansea.ac.uk/static/img/logo/emco-logo-google-search.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://emco.swansea.ac.uk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }}">
+<meta property="og:description" content="A digital edition of the complete letters of Elizabeth Montagu 1718-1800 - ISSN 2753-9091">
+<meta property="og:image" content="http://emco.swansea.ac.uk/static/img/logo/emco-logo-google-search.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }}">
+<meta name="twitter:description" content="A digital edition of the complete letters of Elizabeth Montagu 1718-1800 - ISSN 2753-9091">
+<meta name="twitter:image" content="http://emco.swansea.ac.uk/static/img/logo/emco-logo-google-search.png">
+<meta name="twitter:image:alt" content="Elizabeth Montagu Correspondence Online (EMCO) image">
+<meta name="twitter:site" content="@Montagu_Letters">
+
+<link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
+{% include "emco/bootstrap-css.html" %} 
+{% include "emco/emco-css.html" %}
+
+{% if 'letter-view' or '/correspondents/piozzi' in request.path %}
+	{% include "emco/tei-pub-css.html" %}
+	{% include "emco/tei-pub-deps.html" %}
+{% endif %}
+	
+{% include "emco/emco-js-head.html" %}
+{% include "emco/bootstrap-js.html" %}
+{% include "emco/emco-blockUI.html" %}
+{% include "emco/emco-js.html" %}
+</head>
+<body>
+<a href="#page-content" class="emco-skipTo">skip to content</a>
+	<div class="container-fluid">	  
+		<div class="row su-global-header">
+			<div class="col-md-9"><a href="https://www.swansea.ac.uk" target="_blank">Swansea University</a></div>
+			<div class="col-md-3 text-right"><a href="https://portal.issn.org/resource/ISSN/2753-9091" target="_blank">ISSN 2753-9091</a></div> 
+		</div>
+		<div class="row emco-header">
+			<nav class="navbar navbar-expand-lg col-md-12 emco-nav">				
+			<a class="navbar-brand" href="/">
+			    <img src="/static/img/logo/logo-2-web-ready.png" height="60" alt="EMCO Logo">
+			  </a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
+
+			  </button>				  			  			
+			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
+			    <ul class="navbar-nav">
+				    <li class="nav-item">
+   				      <a class="nav-link" href="/">Home</a>
+				    </li>
+				    <li class="nav-item dropdown">		    
+			      		<a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">The Project</a>
+						<div class="dropdown-menu" aria-labelledby="projectNavbarDropdown">
+						   <a class="dropdown-item" href="/project/about/">About</a>
+						   <a class="dropdown-item" href="/project/funders/">Funders</a>
+   						   <a class="dropdown-item" href="/project/intern-programme/">Intern Programme</a>
+						   <a class="dropdown-item" href="/project/phases-of-development/">Phases of Development</a>
+						   
+						   <a class="dropdown-item" href="/project/team/">Project Team</a>				   						   					   
+						</div>			      		
+				    </li>				    
+				    <li class="nav-item dropdown">			      
+			      		<a class="nav-link dropdown-toggle" href="#" id="montaguNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Elizabeth Montagu</a>
+						<div class="dropdown-menu" aria-labelledby="montaguNavbarDropdown">
+						   <a class="dropdown-item" href="/montagu/bio/">Biography</a>
+						   <a class="dropdown-item" href="/emco/works">Bookshelf</a>						   					   						   
+						   <!-- <a class="dropdown-item" href="/montagu/network/">Montagu's Network</a> -->				   
+						   <a class="dropdown-item" href="/montagu/portrait/">The Portrait</a>						   						   					   
+						</div>			      		
+				    </li>				    
+				    <li class="nav-item dropdown">			      
+			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">The Edition</a>
+						<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
+						   <a class="dropdown-item" href="/edition/introduction/">Introduction</a>
+						   <a class="dropdown-item" href="/emco/correspondents">Correspondents</a>
+						   <a class="dropdown-item" href="/edition/familytrees">Family Trees</a>						   
+							<a class="dropdown-item" href="/emco/calendar/">Calendar</a>							    					   
+						   <a class="dropdown-item" href="/edition/sections/">Sections</a>
+						   <a class="dropdown-item" href="/emco/names">Names</a>
+						   <a class="dropdown-item" href="/emco/letters">Inventory</a>
+						   <a class="dropdown-item" href="/emco/locations">Locations</a>
+						   <!-- <a class="dropdown-item" href="/emco/map/all/">Letter Map</a> -->		   						   
+						</div>			      		
+				    </li>
+				    <li class="nav-item">		      
+			      		<a class="nav-link" href="/blog/">Blog</a>
+				    </li>				    
+				    <li class="nav-item">			      
+			      		<a class="nav-link" href="/news/">News</a>
+				    </li>				    			    				    
+				    <li class="nav-item dropdown">
+			      		<a class="nav-link dropdown-toggle" href="#" id="teachingNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teaching and Learning</a>
+						<div class="dropdown-menu" aria-labelledby="teachingNavbarDropdown">	      
+			      		<a class="dropdown-item" href="/teaching/about/">Teaching Activity</a>
+			      		<a class="dropdown-item" href="/teaching/resources/">Teaching Resources</a>
+						</div>				      		
+				    </li>			    				    			     
+			    </ul>		    
+			  </div>
+				<!-- <form class="form-inline">
+				  <input class="form-control rounded-0 mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				  <button class="btn btn-light rounded-0 my-2 my-sm-0" type="submit">Search</button>
+			    <div class="navbar-nav">
+			      <a class="nav-item nav-link" href="/emco/advanced-search">Advanced Search</a>
+			    </div>					  
+				</form> -->	  		  			
+			</nav>			
+		</div>
+		<div class="row">
+			<div class="col-md-12 search-bar align-right">
+				  <form class="form-inline" action="/emco/search-results">				    
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">Search letter transcripts for: </span>
+					    </div>
+    				    <input class="form-control mr-sm-2" id="inputSearch" type="search"  aria-label="Search" id="q" name="q" value="">
+					    <button class="btn btn-primary" type="submit">Search</button>
+					  </div>				    
+				  </form>			  
+			</div>	
+		</div>					
+		<div class="row emco-main-content">
+			<div class="col">
+				<div class="row">
+					{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path or 'letter-view' in request.path or 'letter-detail' in request.path %}				
+					<div class="col-md-9">
+					{% else %}
+					<div class="col-md-12">
+					{%endif%}
+						<div class="row">
+								<div class="col emco-left-content-wrapper">
+									<div class="emco-breadcrumb">
+										{% block breadcrumb_title %}{% endblock %}
+									</div>								
+									<div class="emco-left-content">
+									{% if '/home/' in request.path %}<h1 class="text-center">{% else %}<h1>{% endif %}{{ flatpage.title }}{% block page_title %}{% endblock %}</h1>
+										{{ flatpage.content }}																	
+										
+										{% block content %}{% endblock %}
+										
+										{% if request.path == '/blog/' %}
+											{% get_flatpages '/blog/' as blog_pages %}
+											<ul>
+											    {% for page in blog_pages %}
+												    {% if page.url != '/blog/' %}
+												        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+												    {% endif %}
+											    {% endfor %}
+											</ul>
+										{% endif %}		
+										
+										{% if request.path == '/news/' %}
+											{% get_flatpages '/news/' as news_pages %}
+											<ul>
+											    {% for page in news_pages %}
+												    {% if page.url != '/news/' %}
+												        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+												    {% endif %}
+											    {% endfor %}
+											</ul>
+										{% endif %}
+										<hr>
+		  							<p>Please note that all dates and location information are provisional, initially taken from the library and archive catalogues. As our section editors continue to work through the material we will update our database and the changes will be reflected across the edition.</p>																													
+									</div>								 
+								</div>
+						</div>						
+					</div>
+					{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path or 'letter-view' in request.path or 'letter-detail' in request.path %}
+					<div class="col-md-3 emco-right-content-wrapper">
+						<div class="emco-right-content sticky-top">
+							<div>
+							{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path %}
+								<div class="quote-container">
+								<!-- 							<h3>Quote of the Day</h3>
+								<blockquote>'I agree with you in lamenting the present state of publick affairs [...]'</blockquote>
+								<p>[MO 571, Elizabeth Robinson Montagu to Frances Boscawen, 9th September 1756]</p> -->
+								</div>
+								<a class="twitter-timeline" data-height="800" href="https://twitter.com/Montagu_Letters?ref_src=twsrc%5Etfw">Tweets by Montagu_Letters</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>																																	
+							{% elif 'letter-view' in request.path or 'letter-detail' in request.path or 'facs-view' in request.path %}
+								{% block letter-metadata  %}{% endblock %}													
+							{% endif %}														
+						</div>
+					</div>	
+				</div>
+				{% endif %}			
+			</div>
+		</div>
+		<div class="row emco-footer">
+			<div class="col-md-12 hosting-rights">
+				<p>Developed, Hosted and published on behalf of EMCO by the <a href="https://www.swansea.ac.uk/digital-humanities/" target="blank">Digital Humanities Team at Swansea University</a> | <a href="/project/about/" target="blank"> Copyright&copy; EMCO</a></p>
+				<p><!-- <a href="/copyright/" target="blank">Picture Credits</a> |  --> <a href="/accessibiility/" target="blank">Accessibility Statement</a> | <a href="/cookies/" target="blank">Cookies Statement</a> | <a href="/copyright/" target="blank">Licensing and Copyright</a></p>
+			</div>
+			<div class="col-md-12 funders-strip">
+				<p>
+					<span class="funder-logo"><a href="https://www.swansea.ac.uk" target="_blank"><img width="200" height="133" src="/static/img/funders/su-logo-2.png" alt="Swansea University"></a></span>
+					<span class="funder-logo"><a href="https://www.brookes.ac.uk/" target="_blank"><img width="200" height="133" src="/static/img/funders/brookes_logo_charcoal_rgb-300x200.jpg" alt="Oxford Brookes University"></a></span>
+					<span class="funder-logo"><a href="https://ahrc.ukri.org/" target="_blank"><img width="200" height="133" src="/static/img/funders/art-humanities-council-logo-300x200.jpg" alt="Arts and Humanities Research Council"></a></span>
+					<span class="funder-logo"><a href="https://www.kcl.ac.uk/" target="_blank"><img width="200" height="133" src="/static/img/funders/kings-college-london-300x200.jpg" alt="Kings College"></a></span>
+					<span class="funder-logo"><a href="http://www.foylefoundation.org.uk/" target="_blank"><img width="200" height="133" src="/static/img/funders/foyle-foundation.png" alt="The Foyle Foundation"></a></span>
+				</p>
+			</div>			
+		</div>
+	</div>
+</div>
+{% include "emco/emco-cookie-notice.html" %} 
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "http://emco.swansea.ac.uk/",
+	"name": "The Elizabeth Montagu Correspondence Online (EMCO)",
+	"description": "A digital edition of the complete letters of Elizabeth Montagu 1718-1800 - ISSN 2753-9091",
+	"subjectOf": "Elizabeth Montagu",
+	"temporalCoverage": "1718/1800",
+	"producer": "Oxford Brookes University and Swansea University",
+	"provider": "Digital Humanities Team at Swansea University",
+	"publisher": "Digital Humanities at Swansea University on behalf of Elizabeth Montagu Correspondence Online (EMCO)",
+	"genre": "Eighteenth Century English Literature",
+	"thumbnailUrl": "http://emco.swansea.ac.uk/static/img/logo/logo-2-web-ready.png"
+}
+</script>     
+</body>
+</html>
