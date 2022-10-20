@@ -1,0 +1,8 @@
+.env
+.env.dev
+.env.prod
+.env.mariadb
+.env.exim4
+app/emco/migrations
+*.code-workspace
+*app\myrddin\__pycache__\
