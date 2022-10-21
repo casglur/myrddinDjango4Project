@@ -25,4 +25,8 @@ def PoemView(request, myrddin_id):
         keyword = ""
 
     context = {}    
-    return render(request, 'emco/letter-view.html', context)
+    return render(request, 'base.html', context)
+
+def Test(request):
+    context = {}    
+    return render(request, 'myrddin/base.html', context)
