@@ -34,13 +34,7 @@
 
 <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
 {% include "myrddin/bootstrap-css.html" %} 
-{% include "myrddin/myrddin-css.html" %}
-
-{% if 'letter-view' or '/correspondents/piozzi' in request.path %}
-	{% include "myrddin/tei-pub-css.html" %}
-	{% include "myrddin/tei-pub-deps.html" %}
-{% endif %}
-	
+{% include "myrddin/myrddin-css.html" %}	
 {% include "myrddin/myrddin-js-head.html" %}
 {% include "myrddin/bootstrap-js.html" %}
 {% include "myrddin/myrddin-blockUI.html" %}
@@ -127,20 +121,7 @@
 									</div>								 
 								</div>
 						</div>						
-					</div>
-					{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path or 'letter-view' in request.path or 'letter-detail' in request.path %}
-					<div class="col-md-3 myrddin-right-content-wrapper">
-						<div class="myrddin-right-content sticky-top">
-							<div>
-							{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path %}
-								<a class="twitter-timeline" data-height="800" href="https://twitter.com/Montagu_Letters?ref_src=twsrc%5Etfw">Tweets by Montagu_Letters</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>																																	
-							{% elif 'letter-view' in request.path or 'letter-detail' in request.path or 'facs-view' in request.path %}
-								{% block letter-metadata  %}{% endblock %}													
-							{% endif %}														
-						</div>
-					</div>	
-				</div>
-				{% endif %}			
+					</div>		
 			</div>
 		</div>
 		<div class="row myrddin-footer">
