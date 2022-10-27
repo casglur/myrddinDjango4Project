@@ -19,7 +19,7 @@
 	       myFunction(this);
 	   }
 	};
-	xhttp.open("GET", "https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_{{ myrddin_id }}.xml%27)//tei:graphic[@rend=%22facstab%22]/", true);
+	xhttp.open("GET", "http://localhost:8080/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_{{ myrddin_id }}.xml%27)//tei:graphic[@rend=%22facstab%22]/", true);
 	xhttp.send();
 	
 	function myFunction(xml) {
@@ -39,7 +39,7 @@
 	</script>
 </div>
 <div class="poems-container">
-	<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/emco" emit="myrddin" class="embedded">
+	<pb-page endpoint="http://localhost:8080/exist/apps/myrddin" emit="myrddin" class="embedded">
 	    <pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin1">
 	    	<h3>Please wait - poems transcript is loading...</h3>
     		<img src="/static/img/icons/Blocks-1s-200px.gif" />
