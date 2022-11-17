@@ -19,7 +19,7 @@ def custom_page_not_found_view(request, exception):
     response.status_code = 404
     return response
 
-def PoemView(request, myrddin_id): 
+def Poem(request, myrddin_id): 
 
     if request.method == 'GET' and 'q' in request.GET:
         keyword = request.GET['q']
@@ -30,7 +30,7 @@ def PoemView(request, myrddin_id):
         'exist_path': exist_path, 
         'myrddin_id': myrddin_id,
         }    
-    return render(request, 'myrddin/poem-view.html', context)
+    return render(request, 'myrddin/poem.html', context)
 
 def SiteRoot(request):
     context = {}    

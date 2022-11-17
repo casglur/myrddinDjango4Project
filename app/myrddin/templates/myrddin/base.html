@@ -42,7 +42,7 @@
 {% include "myrddin/myrddin-js-head.html" %}
 {% include "myrddin/bootstrap-js.html" %}
 {% include "myrddin/myrddin-blockUI.html" %}
-{% include "myrddin/myrddin-js.html" %}
+
 </head>
 <body>
 <a href="#page-content" class="myrddin-skipTo">skip to content</a>
@@ -80,13 +80,14 @@
 				    </li>		    				    			     
 			    </ul>   
 			  </div>
+			</nav>				  
 			<!-- Poem Dropdown Menu -->			  
 			  <form method="GET" action="/poem-view" id="poem-select">
 				<div class="form-group">
 					<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
 						<option value="#">Dewis...</option>
-						<option value="011">11 - Ac yno y cyfyd llu o'r mynydd</option>
-						<option value="019-1">19i - Byd a ddaw bryd wrth arfe</option>
+						<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
+						<option value="/poem/019-1">19i - Byd a ddaw bryd wrth arfe</option>
 					</select>	
 				</div>					         								
 				</form>
@@ -227,7 +228,8 @@
 			</div>			
 		</div>
 </div>
-{% include "myrddin/myrddin-cookie-notice.html" %} 
+{% include "myrddin/myrddin-cookie-notice.html" %}
+{% include "myrddin/myrddin-js.html" %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -243,6 +245,6 @@
 	"genre": "Poetry",
 	"thumbnailUrl": "http://myrddin.swansea.ac.uk/static/img/logo/logo-2-web-ready.png"
 }
-</script>     
+</script> 
 </body>
 </html>

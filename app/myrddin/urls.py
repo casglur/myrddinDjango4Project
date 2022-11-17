@@ -10,7 +10,7 @@ app_name = 'myrddin'
 handler404 = (views.custom_page_not_found_view)
 
 urlpatterns = [
-    path('poem-view/<slug:myrddin_id>/', views.PoemView, name='poem-view'),   
+    path('poem/<slug:myrddin_id>/', views.Poem, name='poem'),   
     # path('', lambda req: redirect('/home/')),
     path('', views.SiteRoot, name='site-root'),
     path('accounts/', include('django.contrib.auth.urls')),
