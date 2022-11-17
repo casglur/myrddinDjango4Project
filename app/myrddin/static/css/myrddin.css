@@ -1,5 +1,15 @@
 .container-fluid {
-    background-color: #fbfaf1;
+    background-color: #ffffff;
+}
+
+.myrddin-left-content{
+    border-top: 1px solid #e0e0e0;     
+    padding-top: 50px;
+}
+
+.myrddin-footer {
+    background-color: rgb(230, 240, 240);
+    margin-top: 100px;
 }
 
 .myrddin-skipTo:link {

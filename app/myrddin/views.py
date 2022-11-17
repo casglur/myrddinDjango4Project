@@ -12,19 +12,24 @@ from pip._vendor.packaging.version import _parse_letter_version
 
 app_url_path = '/myrddin'
 
+exist_path = 'http://localhost:8080'
+
 def custom_page_not_found_view(request, exception):
     response = render(request, "emco/errors/404.html", {})
     response.status_code = 404
     return response
 
-def PoemView(request, myrddin_id=1): 
+def PoemView(request, myrddin_id): 
 
     if request.method == 'GET' and 'q' in request.GET:
         keyword = request.GET['q']
     else:
         keyword = ""
 
-    context = {}    
+    context = {
+        'exist_path': exist_path, 
+        'myrddin_id': myrddin_id,
+        }    
     return render(request, 'myrddin/poem-view.html', context)
 
 def SiteRoot(request):
