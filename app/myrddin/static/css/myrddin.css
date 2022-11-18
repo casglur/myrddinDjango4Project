@@ -38,13 +38,21 @@
 
 
 .myrddin-left-content {
-    border-top: 1px solid #e0e0e0;     
-    padding-top: 50px;
+    border-right: 1px solid #e0e0e0; 
+    border-top: 1px solid #e0e0e0;
+    padding-bottom: 40px;
+    padding-left: 100px;    
+    padding-top: 30px;
+}
+
+.myrddin-right-content {
+    padding-left: 100px;    
+    padding-top: 30px;
 }
 
 .myrddin-footer {
     background-color: #9c9487;
-    margin-top: 100px;
+    padding-top: 20px;
 }
 
 .myrddin-skipTo:link {
