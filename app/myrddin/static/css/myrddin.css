@@ -36,9 +36,12 @@
     color: #000;
 }
 
+.myrddin-left-content-wrapper {
+    border-right: 1px solid #e0e0e0; 
+    height: 650px;
+}
 
 .myrddin-left-content {
-    border-right: 1px solid #e0e0e0; 
     border-top: 1px solid #e0e0e0;
     padding-bottom: 40px;
     padding-left: 100px;    
