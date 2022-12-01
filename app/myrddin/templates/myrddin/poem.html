@@ -1,0 +1,34 @@
+{% extends "myrddin/base.html" %}
+
+{% block edited-text %}
+<div class="custom-control custom-switch">
+	<input type="checkbox" class="custom-control-input" id="customSwitch1">
+	<label class="custom-control-label" for="customSwitch1">Toggle edited text modern spelling</label>
+</div>
+<div class="poems-container">
+	<pb-page endpoint="http://localhost:8080/exist/apps/myrddin" emit="myrddin" class="embedded">
+	    <pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+	    	<h3>Please wait - poems transcript is loading...</h3>
+    	</pb-document>
+    	<pb-progress></pb-progress>
+	    <pb-view src="myrddin" xpath="//teiHeader/fileDesc/titleStmt/title" emit="myrddin" subscribe="myrddin">
+	        <pb-param name="header" value="short">
+	    </pb-param></pb-view>
+	    <pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}testun_gwr']" emit="myrddin" subscribe="myrddin">
+	    {% if keyword %}
+	    <pb-param name="query" value="{{ keyword }}" />
+	    {% endif %}
+	    </pb-view>	    
+	    </pb-view>
+	</pb-page>
+</div>
+
+{% endblock %}
+
+{% block poems-metadata %}
+	{% include "myrddin/poems-detail-card.html" %}
+	<br/>
+	{% include "myrddin/poems-archive-info.html" %} 
+	<br/>
+	{% include "myrddin/poems-location-detail.html" %}
+{% endblock %}

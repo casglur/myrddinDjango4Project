@@ -35,21 +35,26 @@
 <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
 {% include "myrddin/bootstrap-css.html" %} 
 {% include "myrddin/myrddin-css.html" %}	
+
+{% include "myrddin/tei-pub-css.html" %}
+{% include "myrddin/tei-pub-deps.html" %}
+
 {% include "myrddin/myrddin-js-head.html" %}
 {% include "myrddin/bootstrap-js.html" %}
 {% include "myrddin/myrddin-blockUI.html" %}
-{% include "myrddin/myrddin-js.html" %}
+
 </head>
 <body>
 <a href="#page-content" class="myrddin-skipTo">skip to content</a>
-	<div class="container-fluid">	  
+	<div class="container-fluid">
+		<!-- Header-->	  
 		<div class="row myrddin-header">
 			<nav class="navbar navbar-expand-lg col-md-12 myrddin-nav">				
 			<a class="navbar-brand" href="/">
-			    <img src="/static/img/logo/481px-Merlin_from_Le_Morte_d’Arthur_-_Beardsley_-_Early_Works_plate_67.svg.png" height="60" alt="myrddin Logo">
+			    <img src="/static/img/logo/myrddin-logo.jpg" height="60" alt="Myrddin Logo">
 			  </a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
+    		<span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
 
 			  </button>				  			  			
 			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
@@ -65,7 +70,6 @@
 						   <a class="dropdown-item" href="/project/team/">Project Team</a>				   						   					   
 						</div>			      		
 				    </li>				    
-				    
 				    <li class="nav-item dropdown">			      
 			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">The Edition</a>
 						<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
@@ -73,57 +77,145 @@
 						   <a class="dropdown-item" href="/bibliography/">Bibliography</a>			   						   
 						</div>			      		
 				    </li>		    				    			     
-			    </ul>		    
-			  </div>  		  			
-			</nav>			
-		</div>				
+			<!-- Poem Dropdown Menu -->			  
+			<form method="GET" action="/poem-view" id="poem-select">
+				<div class="form-group float-left">
+					<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
+						<option value="#">Dewis...</option>
+						<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
+						<option value="/poem/019-1">19i - Byd a ddaw bryd wrth arfe</option>
+					</select>	
+				</div>					         								
+				</form>
+				<!-- Poem Dropdown Menu End -->					    
+				</ul>   
+			  </div>		  
+			</nav>				  		
+		</div>			
+		<!-- end of Header -->
+		<!-- Main Content-->
 		<div class="row myrddin-main-content">
 			<div class="col">
 				<div class="row">
-					{% if '/home/' in request.path or '/about/' in request.path or '/blog/' in request.path or '/news/' in request.path or 'letter-view' in request.path or 'letter-detail' in request.path %}				
-					<div class="col-md-9">
-					{% else %}
-					<div class="col-md-12">
-					{%endif%}
+					<div class="col-md-4">
 						<div class="row">
-								<div class="col myrddin-left-content-wrapper">
-									<div class="myrddin-breadcrumb">
-										{% block breadcrumb_title %}{% endblock %}
-									</div>								
-									<div class="myrddin-left-content">
-									{% if '/home/' in request.path %}<h1 class="text-center">{% else %}<h1>{% endif %}{{ flatpage.title }}{% block page_title %}{% endblock %}</h1>
-										{{ flatpage.content }}																	
-										
-										{% block content %}{% endblock %}
-										
-										{% if request.path == '/blog/' %}
-											{% get_flatpages '/blog/' as blog_pages %}
-											<ul>
-											    {% for page in blog_pages %}
-												    {% if page.url != '/blog/' %}
-												        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-												    {% endif %}
-											    {% endfor %}
-											</ul>
-										{% endif %}		
-										
-										{% if request.path == '/news/' %}
-											{% get_flatpages '/news/' as news_pages %}
-											<ul>
-											    {% for page in news_pages %}
-												    {% if page.url != '/news/' %}
-												        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-												    {% endif %}
-											    {% endfor %}
-											</ul>
-										{% endif %}
-										<hr>
-									</div>								 
+							<div class="col myrddin-left-content-wrapper overflow-auto">						
+								<div class="myrddin-left-content">
+										{% block edited-text %}{% endblock %}									
 								</div>
-						</div>						
-					</div>		
+							</div>								 
+						</div>		
+					</div>	
+					<div class="col-md-8 myrddin-right-content-wrapper">
+						<div class="myrddin-right-content sticky-top">
+							<ul class="nav nav-tabs" id="myTab" role="tablist">
+								<li class="nav-item" role="presentation">
+								  <button class="nav-link active" id="mod-tab" data-toggle="tab" data-target="#mod" type="button" role="tab" aria-controls="mod" aria-selected="true">Mod</button>
+								</li>
+								<li class="nav-item" role="presentation">
+								  <button class="nav-link" id="aralleiriad-tab" data-toggle="tab" data-target="#aralleiriad" type="button" role="tab" aria-controls="aralleiriad" aria-selected="false">Aralleiriad</button>
+								</li>
+								<li class="nav-item" role="presentation">
+								  <button class="nav-link" id="translation-tab" data-toggle="tab" data-target="#translation" type="button" role="tab" aria-controls="translation" aria-selected="false">Translation</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="false">Cefndir</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="esboniadol-tab" data-toggle="tab" data-target="#esboniadol" type="button" role="tab" aria-controls="esboniadol" aria-selected="false">Esboniadol</button>
+								</li>
+							  </ul>
+							  <div class="tab-content" id="myTabContent">
+								<div class="tab-pane fade show active" id="mod" role="tabpanel" aria-labelledby="mod-tab">
+									<div class="poems-container">
+										<pb-page endpoint="{{ exist_path }}/exist/apps/myrddin" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - poems transcript is loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}testun_mod']" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="aralleiriad" role="tabpanel" aria-labelledby="aralleiriad-tab">
+									<div class="tab-pane fade show active" id="mod" role="tabpanel" aria-labelledby="mod-tab">
+										<div class="poems-container">
+											<pb-page endpoint="{{ exist_path }}/exist/apps/myrddin" emit="myrddin" class="embedded">
+												<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+													<h3>Please wait - poems transcript is loading...</h3>
+												</pb-document>
+												<pb-progress></pb-progress>
+												<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}aralleiriad']" emit="myrddin" subscribe="myrddin">
+												{% if keyword %}
+												<pb-param name="query" value="{{ keyword }}" />
+												{% endif %}
+												</pb-view>	    
+												</pb-view>
+											</pb-page>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="translation" role="tabpanel" aria-labelledby="translation-tab">
+									<div class="poems-container">
+										<pb-page endpoint="{{ exist_path }}/exist/apps/myrddin" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - poems transcript is loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}translation']" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
+									<div class="poems-container">
+										<pb-page endpoint="{{ exist_path }}/exist/apps/myrddin" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - poems transcript is loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}cefndir']/note/p" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="esboniadol" role="tabpanel" aria-labelledby="esboniadol-tab">
+									<div class="poems-container">
+										<pb-page endpoint="{{ exist_path }}/exist/apps/myrddin" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - poems transcript is loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}esboniadol']/note/note/p" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+							  </div>											
+						</div>
+					</div>	
+				</div>
 			</div>
 		</div>
+		<!-- end Main Content-->
+		<!-- Footer -->
 		<div class="row myrddin-footer">
 			<div class="col-md-12 hosting-rights">
 				<p>Developed, Hosted and published on behalf of Canu Myrddin by the <a href="https://www.swansea.ac.uk/digital-humanities/" target="blank">Digital Humanities Team at Swansea University</a> | <a href="/project/about/" target="blank"> Copyright&copy; myrddin</a></p>
@@ -133,24 +225,24 @@
 					<span class="funder-logo"><a href="https://ahrc.ukri.org/" target="_blank"><img width="200" height="133" src="/static/img/funders/art-humanities-council-logo-300x200.jpg" alt="Arts and Humanities Research Council"></a></span></p>
 			</div>			
 		</div>
-	</div>
 </div>
-{% include "myrddin/myrddin-cookie-notice.html" %} 
+{% include "myrddin/myrddin-cookie-notice.html" %}
+{% include "myrddin/myrddin-js.html" %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "url": "http://myrddin.swansea.ac.uk/",
-	"name": "The Elizabeth Montagu Correspondence Online (myrddin)",
-	"description": "A digital edition of the complete letters of Elizabeth Montagu 1718-1800 - ISSN 2753-9091",
-	"subjectOf": "Elizabeth Montagu",
-	"temporalCoverage": "1718/1800",
+	"name": "Merlin Poetry Project (myrddin)",
+	"description": "The complete Merlin poetry",
+	"subjectOf": "Merlin - Myrddin",
+	"temporalCoverage": "1400-1850",
 	"producer": "Cardiff University, University of Wales Trinity Saint David and Swansea University",
 	"provider": "Digital Humanities Team at Swansea University",
 	"publisher": "Digital Humanities at Swansea University",
 	"genre": "Poetry",
 	"thumbnailUrl": "http://myrddin.swansea.ac.uk/static/img/logo/logo-2-web-ready.png"
 }
-</script>     
+</script> 
 </body>
 </html>
