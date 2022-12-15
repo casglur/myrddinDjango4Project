@@ -19,6 +19,19 @@ def custom_page_not_found_view(request, exception):
     response.status_code = 404
     return response
 
+def Location(request, location_id): 
+
+    if request.method == 'GET' and 'q' in request.GET:
+        keyword = request.GET['q']
+    else:
+        keyword = ""
+
+    context = {
+        'exist_path': exist_path, 
+        'location_id': location_id,
+        }    
+    return render(request, 'myrddin/location.html', context)
+
 def Poem(request, myrddin_id): 
 
     if request.method == 'GET' and 'q' in request.GET:

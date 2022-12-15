@@ -1,3 +1,9 @@
+@import url("http://fonts.googleapis.com/css?family=Lora");
+
+body {
+    font-family: 'Lora', serif !important;
+  }
+
 #poem-select {
     margin-top: 0.4em;
 }
@@ -8,6 +14,7 @@
 
 .myrddin-header {
     background-color: #9c9487;
+    font-size: 17px;
 }
 
 .myrddin-header a {
@@ -43,12 +50,14 @@
 
 .myrddin-left-content {
     border-top: 1px solid #e0e0e0;
+    font-size: 18px;
     padding-bottom: 40px;
     padding-left: 100px;    
     padding-top: 30px;
 }
 
 .myrddin-right-content {
+    font-size: 18px;
     padding-left: 50px; 
     padding-right: 50px;    
     padding-top: 30px;
