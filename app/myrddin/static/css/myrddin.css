@@ -60,7 +60,6 @@ body {
     font-size: 18px;
     padding-left: 50px; 
     padding-right: 50px;    
-    padding-top: 30px;
 }
 
 .myrddin-footer {
@@ -78,4 +77,17 @@ body {
 
 .tab-content {
     padding-top: 48px;
+}
+
+.poems-container {
+    padding-bottom: 20vh;
+}
+
+.editor {
+    color:blue;
+    font-style: italic;
+}
+
+.versions {
+    padding-top: 30px;
 }
