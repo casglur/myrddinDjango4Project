@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% load static %}
+{% load flatpages %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description"
+	content="A digital edition of poety relating to Myrddin the magician">
+<title>{% block title %}{% endblock %}{{ flatpage.title }} - at Canu Myrddin</title>
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }}">
+<meta itemprop="description" content="A digital edition of poety relating to Myrddin the magician">
+<meta itemprop="image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://myrddin.swansea.ac.uk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }}">
+<meta property="og:description" content="A digital edition of poety relating to Myrddin the magician">
+<meta property="og:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }}">
+<meta name="twitter:description" content="A digital edition of poety relating to Myrddin the magician">
+<meta name="twitter:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+<meta name="twitter:image:alt" content="Canu Myrddin image">
+<meta name="twitter:site" content="@myrddin_project">
+
+<link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
+{% include "myrddin/bootstrap-css.html" %} 
+{% include "myrddin/myrddin-css.html" %}	
+
+{% include "myrddin/tei-pub-css.html" %}
+{% include "myrddin/tei-pub-deps.html" %}
+
+{% include "myrddin/myrddin-js-head.html" %}
+{% include "myrddin/bootstrap-js.html" %}
+{% include "myrddin/myrddin-blockUI.html" %}
+
+</head>
+<body>
+	<div class="left-poem-container">
+		<div>
+			<pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher" emit="kant" class="embedded">
+				<pb-document id="kant" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta"></pb-document>
+				<!-- Navigate to next page -->
+				<pb-navigation direction="forward" keyboard="right" emit="kant" subscribe="kant">
+					<paper-fab icon="icons:chevron-right"></paper-fab>
+				</pb-navigation>
+				<!-- Navigate to previous page -->
+				<pb-navigation direction="backward" keyboard="left" emit="kant" subscribe="kant">
+					<paper-fab icon="icons:chevron-left"></paper-fab>
+				</pb-navigation>
+				<pb-view src="kant" xpath="//teiHeader/fileDesc/titleStmt/title" emit="kant" subscribe="kant">
+					<pb-param name="header" value="short">
+				</pb-param></pb-view>
+				<pb-view class="transcription" src="kant" view="page" emit="kant" subscribe="kant" append-footnotes="" animation="" disable-history=""></pb-view>
+			</pb-page>
+		</div>
+	
+	</div>
+</body>
+</html>

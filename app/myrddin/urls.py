@@ -14,6 +14,8 @@ urlpatterns = [
     path('location/<slug:location_id>/', views.Location, name='location'),
     # path('', lambda req: redirect('/home/')),
     path('', views.SiteRoot, name='site-root'),
+    path('test', views.Test, name='test'),
+    
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),

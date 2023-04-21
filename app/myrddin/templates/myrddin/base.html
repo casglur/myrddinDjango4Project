@@ -85,6 +85,7 @@
 						<option value="/poem/005_1">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
 						<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
 						<option value="/poem/019">19 - Byd a ddaw bryd wrth arfe</option>
+						<option value="/poem/test">test</option>
 					</select>	
 				</div>					         								
 				</form>
@@ -111,23 +112,32 @@
 					<div class="col-md-8 myrddin-right-content-wrapper">
 						<div class="myrddin-right-content">
 							<div class="versions">
-								<pb-page endpoint="" emit="myrddin" class="embedded">
+								<div class="form-group">
+									<label for="version-select">Versions and Supplementary Material</label>
+									<select class="form-select" aria-label="poem-versions" id="version-select" name="version-select">
+										<option value="1">1 - Title</option>
+										<option value="2">2 - Title</option>
+										<option value="3">3 - Title</option>
+										<option value="4">4 - Title</option>
+									</select>	
+								</div>	
+								<!-- <pb-page endpoint="" emit="myrddin" class="embedded">
 									<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 										<h3>Please wait - content loading...</h3>
 									</pb-document>
 									<pb-progress></pb-progress>
-									<pb-view src="myrddin" xpath="/TEI/text/body/div/div[@type='lev0']/head" emit="myrddin" subscribe="myrddin">
+									<pb-view src="myrddin" xpath="/TEI/text/body/div/div/head" emit="myrddin" subscribe="myrddin">
 									{% if keyword %}
 									<pb-param name="query" value="{{ keyword }}" />
 									{% endif %}
 									</pb-view>	    
 									</pb-view>
-								</pb-page>
+								</pb-page> -->
 							</div>
-							<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<ul class="nav nav-tabs" id="poem-tabs" role="tablist">
 								<li class="nav-item" role="presentation">
-								  <button class="nav-link active" id="mod-tab" data-toggle="tab" data-target="#mod" type="button" role="tab" aria-controls="mod" aria-selected="true">Mod</button>
-								</li>
+									<button class="nav-link  active" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="true">Cefndir</button>
+								</li>								
 								<li class="nav-item" role="presentation">
 								  <button class="nav-link" id="aralleiriad-tab" data-toggle="tab" data-target="#aralleiriad" type="button" role="tab" aria-controls="aralleiriad" aria-selected="false">Aralleiriad</button>
 								</li>
@@ -135,29 +145,16 @@
 								  <button class="nav-link" id="translation-tab" data-toggle="tab" data-target="#translation" type="button" role="tab" aria-controls="translation" aria-selected="false">Translation</button>
 								</li>
 								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="false">Cefndir</button>
-								</li>
-								<li class="nav-item" role="presentation">
 									<button class="nav-link" id="esboniadol-tab" data-toggle="tab" data-target="#esboniadol" type="button" role="tab" aria-controls="esboniadol" aria-selected="false">Esboniadol</button>
 								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="llawysgrifau-tab" data-toggle="tab" data-target="#llawysgrifau" type="button" role="tab" aria-controls="llawysgrifau" aria-selected="false">Llawysgrifau</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="mod-tab" data-toggle="tab" data-target="#mod" type="button" role="tab" aria-controls="mod" aria-selected="false">Mod</button>
+								</li>																							
 							  </ul>
-							  <div class="tab-content" id="myTabContent">
-								<div class="tab-pane fade show active" id="mod" role="tabpanel" aria-labelledby="mod-tab">	
-									<div class="poems-container">
-										<pb-page endpoint="" emit="myrddin" class="embedded">
-											<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-												<h3>Please wait - content loading...</h3>
-											</pb-document>
-											<pb-progress></pb-progress>
-											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_testun_mod']" emit="myrddin" subscribe="myrddin">
-											{% if keyword %}
-											<pb-param name="query" value="{{ keyword }}" />
-											{% endif %}
-											</pb-view>	    
-											</pb-view>
-										</pb-page>
-									</div>
-								</div>
+							  <div class="tab-content" id="poem-tabs">								
 								<div class="tab-pane fade" id="aralleiriad" role="tabpanel" aria-labelledby="aralleiriad-tab">
 									<div class="tab-pane fade show active" id="mod" role="tabpanel" aria-labelledby="mod-tab">
 										<div class="poems-container">
@@ -192,7 +189,7 @@
 										</pb-page>
 									</div>
 								</div>
-								<div class="tab-pane fade" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
+								<div class="tab-pane fade show active" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
 									<div class="poems-container">
 										<pb-page endpoint="" emit="myrddin" class="embedded">
 											<pb-document id="myrddin" path="myrddin{{ myrddin_id }}.xml" odd="myrddin">
@@ -216,6 +213,38 @@
 											</pb-document>
 											<pb-progress></pb-progress>
 											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_esboniadol']/note" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
+									<div class="poems-container">
+										<pb-page endpoint="" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - content loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']" emit="myrddin" subscribe="myrddin">
+											{% if keyword %}
+											<pb-param name="query" value="{{ keyword }}" />
+											{% endif %}
+											</pb-view>	    
+											</pb-view>
+										</pb-page>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="mod" role="tabpanel" aria-labelledby="mod-tab">
+									<div class="poems-container">
+										<pb-page endpoint="" emit="myrddin" class="embedded">
+											<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
+												<h3>Please wait - content loading...</h3>
+											</pb-document>
+											<pb-progress></pb-progress>
+											<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_testun_mod']" emit="myrddin" subscribe="myrddin">
 											{% if keyword %}
 											<pb-param name="query" value="{{ keyword }}" />
 											{% endif %}

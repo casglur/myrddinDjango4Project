@@ -79,12 +79,16 @@ body {
     padding-top: 48px;
 }
 
+.left-poem-container {
+    padding-bottom: 4vh;
+}
+
 .poems-container {
-    padding-bottom: 20vh;
+    padding-bottom: 10vh;
 }
 
 .editor {
-    color:blue;
+    color:rgb(175, 175, 185);
     font-style: italic;
 }
 

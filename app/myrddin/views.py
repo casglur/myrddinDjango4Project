@@ -38,13 +38,20 @@ def Poem(request, myrddin_id):
         keyword = request.GET['q']
     else:
         keyword = ""
+        
+    request = request
 
     context = {
         'exist_path': exist_path, 
         'myrddin_id': myrddin_id,
+        'request': request,
         }    
     return render(request, 'myrddin/poem.html', context)
 
 def SiteRoot(request):
     context = {}    
     return render(request, 'myrddin/base.html', context)
+
+def Test(request):
+    context = {}    
+    return render(request, 'myrddin/base-test.html', context)

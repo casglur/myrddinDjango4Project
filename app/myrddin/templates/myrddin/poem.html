@@ -6,7 +6,7 @@ Canu Myrddin
 
 {% block edited-text %}
 
-<div class="poems-container">
+<div class="left-poem-container">
 	<div class="editor">
 		<pb-view id="poem-content" src="myrddin" xpath="/TEI/text/body/div/div/note" emit="myrddin" subscribe="myrddin"/>
 	</div>
@@ -27,12 +27,13 @@ Canu Myrddin
 				<h3>Please wait - content is loading...</h3>
 			</pb-document>
 			<pb-progress></pb-progress>
-			<pb-view id="poem-content" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_testun_gwr']" emit="myrddin" subscribe="myrddin"/>
+			<pb-view id="poem-content" src="myrddin" xpath="/TEI/text/body/div/div/div[contains(concat(' ', @xml:id, ' '), 'testun_gwr')][1]" emit="myrddin" subscribe="myrddin"/>
 		</pb-page>
 	</div>
 
 </div>
 <hr>
+{{ request }}
 <!--
 	<div class="custom-control custom-switch">
 	<input type="checkbox" class="custom-control-input" id="customSwitch1">
