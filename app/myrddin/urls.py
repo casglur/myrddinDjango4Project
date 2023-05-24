@@ -10,7 +10,8 @@ app_name = 'myrddin'
 handler404 = (views.custom_page_not_found_view)
 
 urlpatterns = [
-    path('poem/<slug:myrddin_id>/', views.Poem, name='poem'),   
+    path('poem/', views.Poem, name='poem'),  
+    path('poem/<slug:myrddin_id>/', views.Poem, name='poem'),  
     path('location/<slug:location_id>/', views.Location, name='location'),
     # path('', lambda req: redirect('/home/')),
     path('', views.SiteRoot, name='site-root'),
