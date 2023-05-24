@@ -46,7 +46,7 @@ def Poem(request, myrddin_id):
         'myrddin_id': myrddin_id,
         'request': request,
         }    
-    return render(request, 'myrddin/poem.html', context)
+    return render(request, 'myrddin/poem-base.html', context)
 
 def SiteRoot(request):
     context = {}    
