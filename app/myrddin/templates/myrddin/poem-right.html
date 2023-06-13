@@ -1,27 +1,20 @@
 <div class="right-poem-container">
+	{% if versions|length > 1 %}
 	<div class="versions">
-		<div class="form-group">
-			<label for="version-select">Versions and Supplementary Material</label>
+		<div class="form-group" id="versions-select">
+			<label for="version-select">Versions and Supplementary Material: </label>
 			<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
 				<option selected>Dewis...</option>
-				{% for version in versions_list %}
+				{% for version in versions %}
 					<option>{{ version|safe }}</option>
 			  	{% endfor %}				
 			</select>	
 		</div>	
-		<!-- <pb-page endpoint="" emit="myrddin" class="embedded">
-			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-				<h3>Please wait - content loading...</h3>
-			</pb-document>
-			<pb-progress></pb-progress>
-			<pb-view src="myrddin" xpath="/TEI/text/body/div/div/head" emit="myrddin" subscribe="myrddin" disable-history="true" >
-			{% if keyword %}
-			<pb-param name="query" value="{{ keyword }}" />
-			{% endif %}
-			</pb-view>	    
-		</pb-page> -->
 	</div>
-	<ul class="nav nav-tabs" id="poem-tabs" role="tablist">
+	{% else %}
+	<br>
+	{% endif %}
+	<ul class="nav nav-tabs" id="poem-tabs-links" role="tablist">
 		<li class="nav-item" role="presentation">
 			<button class="nav-link  active" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="true">Cefndir</button>
 		</li>								
@@ -41,7 +34,7 @@
 			<button class="nav-link" id="modern-tab" data-toggle="tab" data-target="#modern" type="button" role="tab" aria-controls="modern" aria-selected="false">Modern</button>
 		</li>																							
 	</ul>
-	<div class="tab-content" id="poem-tabs">
+	<div class="tab-content overflow-auto" id="poem-tabs">
 		<div class="tab-pane fade show active" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
 			<div class="poems-container">				
 				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
@@ -96,7 +89,7 @@
 						<h3>Please wait - content loading...</h3>
 					</pb-document>
 					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_esboniadol']/note[@type="Nodiadau_esboniadol"]" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_esboniadol']/note[@type='Nodiadau_esboniadol']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
 					<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
@@ -105,9 +98,9 @@
 			</div>
 		</div>
 		<div class="tab-pane fade" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
-			<div class="poems-container">
-				<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=22&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
+			<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=21&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
 
+			<div class="poems-container">
 				<pb-page endpoint="" emit="myrddin" class="embedded">
 					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 						<h3>Please wait - content loading...</h3>
@@ -141,7 +134,7 @@
 	  myrddin_id: {{ myrddin_id }}
 	  <br>
 	  Version: {{ version }}<br>
-	  Versions list: {{ versions_list }}	
+	  Versions list: {{ versions }}	
 </div>
 <script language="JavaScript">
 	$(function(){
