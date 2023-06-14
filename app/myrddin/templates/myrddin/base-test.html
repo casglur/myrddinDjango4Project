@@ -47,21 +47,26 @@
 <body>
 	<div class="left-poem-container">
 		<div>
-			<pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher" emit="kant" class="embedded">
-				<pb-document id="kant" path="test/kant_rvernunft_1781.TEI-P5.xml" odd="dta"></pb-document>
-				<!-- Navigate to next page -->
-				<pb-navigation direction="forward" keyboard="right" emit="kant" subscribe="kant">
-					<paper-fab icon="icons:chevron-right"></paper-fab>
-				</pb-navigation>
-				<!-- Navigate to previous page -->
-				<pb-navigation direction="backward" keyboard="left" emit="kant" subscribe="kant">
-					<paper-fab icon="icons:chevron-left"></paper-fab>
-				</pb-navigation>
-				<pb-view src="kant" xpath="//teiHeader/fileDesc/titleStmt/title" emit="kant" subscribe="kant">
-					<pb-param name="header" value="short">
-				</pb-param></pb-view>
-				<pb-view class="transcription" src="kant" view="page" emit="kant" subscribe="kant" append-footnotes="" animation="" disable-history=""></pb-view>
-			</pb-page>
+			<div>
+				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+					<pb-document id="myrddin" path="myrddin_011.xml" odd="myrddin">
+					</pb-document>
+					<pb-progress></pb-progress>
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/head" subscribe="myrddin" disable-history="true">
+						<pb-param name="header" value="short"></pb-param>
+					</pb-view>
+				</pb-page>
+		
+			</div>
+			<div>
+				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+					<pb-document id="myrddin" path="myrddin_011.xml" odd="myrddin">
+						<h3>Please wait - content is loading...</h3>
+					</pb-document>
+					<pb-progress></pb-progress>
+					<pb-view id="poem-content" src="myrddin" xpath="/TEI/text/body/div/div/div[contains(concat(' ', @xml:id, ' '), 'testun_gwr')][1]" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+				</pb-page>
+			</div>
 		</div>
 	
 	</div>
