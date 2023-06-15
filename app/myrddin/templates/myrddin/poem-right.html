@@ -1,4 +1,7 @@
 <div class="right-poem-container">
+	{% for m in manuscripts %}
+	{{ m }}
+	{% endfor %}
 	{% if versions|length > 1 %}
 	<div class="versions">
 		<div class="form-group" id="versions-select">

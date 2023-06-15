@@ -57,8 +57,33 @@ def Poem(request, myrddin_id):
         version = request.GET['v']
     else:
         version = "1"    
+        
+    '''Get the manuscripts for the selected poem version
+    ====================================================
+    '''
     
-    # Get the title of the poem
+    manuscripts = "foo"  
+          
+    manuscripts_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_005.xml%27)//tei:div[@xml:id=%22myrddin005_1_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20' 
+    manuscripts_xpath_query_xml_response = requests.get(manuscripts_xpath_query_url)
+    
+    # Convert XML to a dictionary    
+    manuscripts_dictionary = xmltodict.parse(manuscripts_xpath_query_xml_response.content)
+    # manuscripts_json = json.loads(manuscripts_dictionary)
+    
+    # Recast the dictionary with only the elements of the dictionary that contain the manuscript names      
+    manuscripts_dictionary = manuscripts_dictionary.get('exist:result', {}).get('exist:value')
+   
+    # Create a manuscripts list to hold the manuscripts names
+    manuscripts= []
+    
+    # Append each manuscript name to the list
+    for m in manuscripts_dictionary:
+        manuscripts.append(m['#text'])    
+    
+    ''' Get the title of the poem
+    ====================================================
+    '''
     title = ''
     
     title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin' + myrddin_id + '_' + version + '_top%22]/tei:head'
@@ -67,7 +92,7 @@ def Poem(request, myrddin_id):
     # Convert XML to a dictionary    
     title_dictionary = xmltodict.parse(title_xpath_query_xml_response.content)
     
-    # Get the value the the title key from the dictionary
+    # Get the value of the title key from the dictionary
     title = title_dictionary['exist:result']['head'].get('#text')
       
     # Get the versions of the poem
@@ -82,7 +107,7 @@ def Poem(request, myrddin_id):
     # Get only the elements of the dictionary that contain the version ids      
     versions = versions_dictionary['exist:result']['exist:ids']['exist:id']
 
-    # Is the versions xpath query a list?   
+    # Is the versions dictionary a list?   
     if isinstance(versions, list):
         
         # Remove the characters from each key except for the poem number
@@ -97,6 +122,7 @@ def Poem(request, myrddin_id):
                         
     context = {
         'exist_path': exist_path,
+        'manuscripts': manuscripts,
         'myrddin_id': myrddin_id,
         'request': request,
         'title': title,
