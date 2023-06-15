@@ -1,15 +1,12 @@
 <div class="right-poem-container">
-	{% for m in manuscripts %}
-	{{ m }}
-	{% endfor %}
 	{% if versions|length > 1 %}
 	<div class="versions">
 		<div class="form-group" id="versions-select">
 			<label for="version-select">Versions and Supplementary Material: </label>
 			<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
 				<option selected>Dewis...</option>
-				{% for version in versions %}
-					<option>{{ version|safe }}</option>
+				{% for v in versions %}
+					<option>{{ v|safe }}</option>
 			  	{% endfor %}				
 			</select>	
 		</div>	
@@ -102,7 +99,15 @@
 		</div>
 		<div class="tab-pane fade" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
 			<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=21&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
-
+			<div class="form-group" id="manuscripts-select">
+				<label for="manuscripts-select">Llawysgrifau: </label>
+				<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
+					<option selected>Dewis...</option>
+					{% for m in manuscripts %}
+						<option>{{ m|safe }}</option>
+					{% endfor %}				
+				</select>	
+			</div>	
 			<div class="poems-container">
 				<pb-page endpoint="" emit="myrddin" class="embedded">
 					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
