@@ -10,23 +10,23 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="description"
 	content="A digital edition of poetry relating to Myrddin the magician">
-<title>{% block title %}{% endblock %}{{ flatpage.title }} - at Canu Myrddin</title>
+<title>{% block title %}{% endblock %}{{ flatpage.title }} {{ title }} - at Canu Myrddin</title>
 
 <!-- Google / Search Engine Tags -->
-<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }}">
+<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }} {{ title }}">
 <meta itemprop="description" content="A digital edition of poetry relating to Myrddin the magician">
 <meta itemprop="image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="http://myrddin.swansea.ac.uk">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }}">
+<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }} {{ title }}">
 <meta property="og:description" content="A digital edition of poetry relating to Myrddin the magician">
 <meta property="og:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }}">
+<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }} {{ title }}">
 <meta name="twitter:description" content="A digital edition of poerty relating to Myrddin the magician">
 <meta name="twitter:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
 <meta name="twitter:image:alt" content="Canu Myrddin image">
@@ -78,19 +78,18 @@
 						</div>			      		
 				    </li>		    				    			     
 			<!-- Poem Dropdown Menu -->			  
-			<form method="GET" action="/poem-view" id="poem-select">
-				<div class="form-group float-left">
-					<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
-						<option value="#">Dewis...</option>
-						<option value="/poem/005">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
-						<option value="/poem/009">9 - A'th ofynnaf Ferddin, ddewin ddoniau</option>
-						<option value="/poem/010">10 - Sef y'th ofynnaf cyn gwasgod yr haf</option>
-						<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
-						<option value="/poem/019">19 - Byd a ddaw bryd wrth arfe</option>
-						<option value="/poem/test">test</option>
-					</select>	
-				</div>					         								
-				</form>
+					<form method="GET" action="/poem-view" id="poem-select">
+						<div class="form-group float-left">
+							<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
+								<option value="#">Dewis...</option>
+								<option value="/poem/005">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
+								<option value="/poem/009">9 - A'th ofynnaf Ferddin, ddewin ddoniau</option>
+								<option value="/poem/010">10 - Sef y'th ofynnaf cyn gwasgod yr haf</option>
+								<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
+								<option value="/poem/019">19 - Byd a ddaw bryd wrth arfe</option>
+							</select>	
+						</div>					         								
+					</form>
 				<!-- Poem Dropdown Menu End -->					    
 				</ul>   
 			  </div>		  
@@ -143,9 +142,9 @@
 	"description": "The complete Merlin poetry",
 	"subjectOf": "Merlin - Myrddin",
 	"temporalCoverage": "1400-1850",
-	"producer": "Cardiff University, University of Wales Trinity Saint David and Swansea University",
+	"producer": "Cardiff University, Swansea University and University of Wales Trinity Saint David",
 	"provider": "Digital Humanities Team at Swansea University",
-	"publisher": "Digital Humanities at Swansea University",
+	"publisher": "Digital Humanities Team at Swansea University",
 	"genre": "Poetry",
 	"thumbnailUrl": "http://myrddin.swansea.ac.uk/static/img/logo/logo-2-web-ready.png"
 }

@@ -1,8 +1,9 @@
 <div class="right-poem-container">
+	{{ manuscript_version }}
 	{% if versions|length > 1 %}
 	<div class="versions">
 		<div class="form-group" id="versions-select">
-			<label for="version-select">Versions and Supplementary Material: </label>
+			<label for="version-select">Versions and additional material: </label>
 			<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
 				<option selected>Dewis...</option>
 				{% for v in versions %}
@@ -16,7 +17,7 @@
 	{% endif %}
 	<ul class="nav nav-tabs" id="poem-tabs-links" role="tablist">
 		<li class="nav-item" role="presentation">
-			<button class="nav-link  active" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="true">Cefndir</button>
+			<button class="nav-link" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="true">Cefndir</button>
 		</li>								
 		<li class="nav-item" role="presentation">
 		<button class="nav-link" id="aralleiriad-tab" data-toggle="tab" data-target="#aralleiriad" type="button" role="tab" aria-controls="aralleiriad" aria-selected="false">Aralleiriad</button>
@@ -35,7 +36,7 @@
 		</li>																							
 	</ul>
 	<div class="tab-content overflow-auto" id="poem-tabs">
-		<div class="tab-pane fade show active" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
+		<div class="tab-pane fade show" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
 			<div class="poems-container">				
 				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
 					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
@@ -51,20 +52,18 @@
 			</div>
 		</div>										
 		<div class="tab-pane fade" id="aralleiriad" role="tabpanel" aria-labelledby="aralleiriad-tab">
-			<div class="tab-pane fade show active" id="mod" role="tabpanel" aria-labelledby="mod-tab">
-				<div class="poems-container">
-					<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-						<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-							<h3>Please wait - content loading...</h3>
-						</pb-document>
-						<pb-progress></pb-progress>
-						<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_aralleiriad']" emit="myrddin" subscribe="myrddin" disable-history="true" >
-						{% if keyword %}
-						<pb-param name="query" value="{{ keyword }}" />
-						{% endif %}
-						</pb-view>	    
-					</pb-page>
-				</div>
+			<div class="poems-container">
+				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
+						<h3>Please wait - content loading...</h3>
+					</pb-document>
+					<pb-progress></pb-progress>
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_aralleiriad']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% if keyword %}
+					<pb-param name="query" value="{{ keyword }}" />
+					{% endif %}
+					</pb-view>	    
+				</pb-page>
 			</div>
 		</div>
 		<div class="tab-pane fade" id="translation" role="tabpanel" aria-labelledby="translation-tab">
@@ -97,24 +96,35 @@
 				</pb-page>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
+		<div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
 			<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=21&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
-			<div class="form-group" id="manuscripts-select">
-				<label for="manuscripts-select">Llawysgrifau: </label>
-				<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
-					<option selected>Dewis...</option>
-					{% for m in manuscripts %}
-						<option>{{ m|safe }}</option>
-					{% endfor %}				
-				</select>	
-			</div>	
+			{% if has_multiple_manuscripts == 1 %}
+				<div class="form-group" id="manuscripts-select">
+					<label for="manuscripts-select">Llawysgrifau: </label>
+					<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
+						<option selected>Dewis...</option>
+						{% for m in manuscripts %}
+							<option>{{ m|safe }}</option>
+						{% endfor %}				
+					</select>	
+				</div>
+			{% endif %}	
 			<div class="poems-container">
-				<pb-page endpoint="" emit="myrddin" class="embedded">
+				<pb-collapse emit="meta">
+					<div slot="collapse-trigger">About this text</div>
+					<pb-view slot="collapse-content" on-update src="intro" subscribe="meta"></pb-view>
+				</pb-collapse>
+				<pb-page id="manuscript-view-page" endpoint="" emit="myrddin" class="embedded">
 					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 						<h3>Please wait - content loading...</h3>
 					</pb-document>
 					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% if manuscript_version == '1' %}
+					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[1]" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% else %}
+					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[@xml:id='{{ manuscript_version }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% endif %}	
+					
 					{% if keyword %}
 					<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
@@ -150,4 +160,26 @@
 			window.location='{{request.path}}?v=' + this.value
 		});
 	});
+
+	$(function(){
+		$("#manuscript-select").change(function(){
+			window.location='{{request.get_full_path}}&m=' + this.value
+		});
+	});
+	
+    window.addEventListener('load', () => {
+        document.addEventListener('pb-collapse-open', (ev) => {
+            if (ev.detail && ev.detail.key && ev.detail.key === 'meta') {
+                document.dispatchEvent(new CustomEvent('pb-update', {
+                    detail: {
+                        key: 'meta'
+                    }
+                }));
+            }
+        });
+    });
+
+</script>
+	
+
 </script>

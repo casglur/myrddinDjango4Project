@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% load static %}
+{% load flatpages %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description"
+	content="A digital edition of poetry relating to Myrddin the magician">
+<title>{% block title %}{% endblock %}{{ flatpage.title }} {{ title }} - at Canu Myrddin</title>
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta itemprop="description" content="A digital edition of poetry relating to Myrddin the magician">
+<meta itemprop="image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://myrddin.swansea.ac.uk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta property="og:description" content="A digital edition of poetry relating to Myrddin the magician">
+<meta property="og:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta name="twitter:description" content="A digital edition of poerty relating to Myrddin the magician">
+<meta name="twitter:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+<meta name="twitter:image:alt" content="Canu Myrddin image">
+<meta name="twitter:site" content="@myrddin_project">
+
+<link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
+{% include "myrddin/bootstrap-css.html" %} 
+{% include "myrddin/myrddin-css.html" %}	
+
+{% include "myrddin/tei-pub-css.html" %}
+{% include "myrddin/tei-pub-deps.html" %}
+
+{% include "myrddin/myrddin-js-head.html" %}
+{% include "myrddin/bootstrap-js.html" %}
+{% include "myrddin/myrddin-blockUI.html" %}
+
+</head>
+<body>
+	<div class="container-fluid">
+		<h1>Get Manuscript</h1>
+		<table class="table table-bordered table-dark">
+			<thead>
+			  <tr>
+				<th scope="col">Variable</th>
+				<th scope="col">Returned value</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<th scope="row">myrddin_id</th>
+				<td>{{ myrddin_id }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">title</th>
+				<td>{{ title }}</td>
+			  </tr>			  
+			  <tr>
+				<th scope="row">request</th>
+				<td>{{ request }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">exist_path</th>
+				<td>{{ exist_path }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">has_multiple_manuscripts</th>
+				<td>{{ has_multiple_manuscripts }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">manuscript_ref</th>
+				<td>{{ manuscript_ref }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">manuscripts</th>
+				<td>{{ manuscripts }}</td>
+			  </tr>
+			  <tr>
+				<th scope="row">version</th>
+				<td>{{ version }}</td>
+			  </tr>					  
+			  <tr>
+				<th scope="row">versions</th>
+				<td>{{ versions }}</td>
+			  </tr>	
+			  <tr>
+				<th scope="row">manuscripts_xpath_query_url</th>
+				<td>https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin' + myrddin_id + '_1_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20'</td>
+			  </tr>
+			</tbody>
+		  </table>
+		  <div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
+			{% if has_multiple_manuscripts == 1 %}
+				<div class="form-group" id="manuscripts-select">
+					<label for="manuscripts-select">Llawysgrifau: </label>
+					<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
+						<option selected>Dewis...</option>
+						{% for m in manuscripts %}
+							<option>{{ m|safe }}</option>
+						{% endfor %}				
+					</select>	
+				</div>
+			{% endif %}	
+			<div class="poems-container">
+				<pb-page id="manuscript-view-page" endpoint="" emit="myrddin" class="embedded">
+					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
+						<h3>Please wait - content loading...</h3>
+					</pb-document>
+					<pb-progress></pb-progress>
+					{% if manuscript_version == '1' %}
+					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[1]" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% else %}
+					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[@xml:id='{{ manuscript_version }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% endif %}	
+					
+					{% if keyword %}
+					<pb-param name="query" value="{{ keyword }}" />
+					{% endif %}
+					</pb-view>	    
+				</pb-page>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -5,7 +5,7 @@
 		<button type="button" class="btn btn-primary" id="mod_yes">Show Modern Version</button>
 	</p>	 -->
 	<div class="editor" id="editor">
-		<pb-view id="poem-editor" src="myrddin" xpath="/TEI/text/body/div/div/note" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+		<pb-view id="poem-editor" src="myrddin" xpath="/TEI/text/body/div/div/note[@type='golygydd']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
 	</div>
 	<div>
 		<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">

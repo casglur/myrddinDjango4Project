@@ -12,6 +12,11 @@ body {
     background-color: #ffffff;
 }
 
+iframe {
+    display: block;
+    height: 420px;
+}
+
 .myrddin-header {
     background-color: #9c9487;
     font-size: 17px;
@@ -76,7 +81,11 @@ body {
 }
 
 .tab-content {
-    padding-top: 48px;
+    padding-top: 10px;
+}
+
+.tab-content>.active {
+    display: block;
 }
 
 .left-poem-container {
@@ -92,6 +101,16 @@ body {
     font-style: italic;
 }
 
+.universal-viewer {
+    background-color: blue;
+}
+
 .versions {
     padding-top: 30px;
+}
+
+#versions-select {
+    background-color: #9c9487;
+    color: #fff;
+    padding: 10px;
 }
