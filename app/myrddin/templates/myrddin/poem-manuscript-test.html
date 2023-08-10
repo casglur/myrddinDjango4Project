@@ -80,8 +80,8 @@
 				<td>{{ manuscript_ref }}</td>
 			  </tr>
 			  <tr>
-				<th scope="row">manuscripts</th>
-				<td>{{ manuscripts }}</td>
+				<th scope="row">manuscripts_list</th>
+				<td>{{ manuscripts_list }}</td>
 			  </tr>
 			  <tr>
 				<th scope="row">version</th>
@@ -103,7 +103,7 @@
 					<label for="manuscripts-select">Llawysgrifau: </label>
 					<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
 						<option selected>Dewis...</option>
-						{% for m in manuscripts %}
+						{% for m in manuscripts_list %}
 							<option>{{ m|safe }}</option>
 						{% endfor %}				
 					</select>	
