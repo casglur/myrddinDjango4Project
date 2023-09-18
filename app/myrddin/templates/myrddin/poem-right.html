@@ -1,5 +1,4 @@
 <div class="right-poem-container">
-	{{ manuscript_version }}
 	{% if versions|length > 1 %}
 	<div class="versions">
 		<div class="form-group" id="versions-select">
@@ -43,7 +42,7 @@
 						<h3>Please wait - content loading...</h3>
 					</pb-document>
 					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_cefndir']/note[@type='Nodyn_cefndir']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_cefndir']/note[@type='Nodyn_cefndir']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
 					<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
@@ -178,8 +177,5 @@
             }
         });
     });
-
-</script>
-	
 
 </script>

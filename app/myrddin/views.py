@@ -40,67 +40,40 @@ def Location(request, location_id):
 
 
 """
-Function to get manuscript details for a poem
+Function to test fetching manuscript details for a poem
 """
 def PoemManuscript(request, myrddin_id="1"):
 
     # Is there a version number parameter in the URL?
     if request.method == 'GET' and 'v' in request.GET:
-        version = request.GET['v']
+        poem_version = request.GET['v']
     else:
-        version = "1"    
+        poem_version = "1"    
         
     # Is there a manuscript version number parameter in the URL?
     manuscript = '1'
     if request.method == 'GET' and 'm' in request.GET:
-        manuscript_ref = request.GET['m']
+        manuscript_version = request.GET['m']
     else:
-        manuscript_ref = '1'    
+        manuscript_version = '1'  
         
-    '''Get the manuscripts for the selected poem version
-    ====================================================
-    '''    
-    manuscripts = ""  
-          
-    manuscripts_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + version +'_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20' 
-    manuscripts_xpath_query_xml_response = requests.get(manuscripts_xpath_query_url)
-    print(type(manuscripts_xpath_query_xml_response))
+    # Is there a manuscript type parameter in the URL?
+    manuscript_type = ''
+    manuscript_type_text = 'mydryddol'
     
-    print('manuscripts_xpath_query_xml_response.content: ' + manuscripts_xpath_query_xml_response.content.decode())
-    
-    # Convert XML response to an XML tree
-    manuscripts_xml_root = lxml.etree.fromstring(manuscripts_xpath_query_xml_response.content)
-    
-    # Create list from output of xpath query                             
-    manuscripts_list = manuscripts_xml_root.xpath('//exist:value/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
-    print(manuscripts_list)
-    
-    has_manuscripts = ''
-    has_multiple_manuscripts = ''
-    
-    print(type(manuscripts_list)) 
-    print(manuscripts_list)
-    print('manuscripts_list length is: ' + str(len(manuscripts_list)))
-    for m in manuscripts_list:
-        print(m)     
-        
-    print(len(manuscripts_list))              
-    
-    # Set value of has_multiple_manuscripts variable if the list has more than one index
-    if len(manuscripts_list) == 0:
-        has_multiple_manuscripts = 0    
-    else:    
-        if len(manuscripts_list) < 2:
-            has_multiple_manuscripts = 0
+    if request.method == 'GET' and 'mt' in request.GET:
+        manuscript_type = request.GET['mt']
+        if manuscript_type == 'm':
+            manuscript_type_text = 'mydryddol'
         else:
-            has_multiple_manuscripts = 1   
-                
+            manuscript_type_text = 'diplomatig' 
+    print('manuscript type: ' + manuscript_type_text)
+               
     ''' Get the title of the poem
     ====================================================
     '''
     title = ''
-    
-    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + version + '_top%22]/tei:head'
+    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + manuscript_version + '_top%22]/tei:head'
     title_xpath_query_xml_response = requests.get(title_xpath_query_url)
     
     title_xml_root = lxml.etree.fromstring(title_xpath_query_xml_response.content)
@@ -111,41 +84,102 @@ def PoemManuscript(request, myrddin_id="1"):
     ''' Get the versions of the poem
     ====================================================
     '''    
-    versions = ""        
+    poem_versions = ""        
     # previous_versions_xpath_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;declare%20variable%20$results%20:=%20doc(%27/db/apps/myrddin/data/myrddin_%s.xml%27)//tei:div[@type=%22lev0%22];%3Csections%3E{for%20$result%20in%20$results%20return%20%3Csection%3E{$result/@xml:id/string()}%3C/section%3E}%3C/sections%3E' % myrddin_id
-    versions_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei%3D%22http%3A%2F%2Fwww.tei-c.org%2Fns%2F1.0%22%3Bdeclare%20variable%20%24results%20%3A%3D%20doc(%27%2Fdb%2Fapps%2Fmyrddin%2Fdata%2Fmyrddin_' + myrddin_id + '.xml%27)%2F%2Ftei%3Adiv%5B%40type%3D%22lev0%22%5D%3B%3Cexist:ids%3E%7Bfor%20%24result%20in%20%24results%20return%20%3Cexist:id%3E%7B%24result%2F%40xml%3Aid%2Fstring()%7D%3C%2Fexist:id%3E%7D%3C%2Fexist:ids%3E%09%0A' 
-    versions_xpath_query_xml_response = requests.get(versions_xpath_query_url)
+    poem_versions_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei%3D%22http%3A%2F%2Fwww.tei-c.org%2Fns%2F1.0%22%3Bdeclare%20variable%20%24results%20%3A%3D%20doc(%27%2Fdb%2Fapps%2Fmyrddin%2Fdata%2Fmyrddin_' + myrddin_id + '.xml%27)%2F%2Ftei%3Adiv%5B%40type%3D%22lev0%22%5D%3B%3Cexist:ids%3E%7Bfor%20%24result%20in%20%24results%20return%20%3Cexist:id%3E%7B%24result%2F%40xml%3Aid%2Fstring()%7D%3C%2Fexist:id%3E%7D%3C%2Fexist:ids%3E%09%0A' 
+    poem_versions_xpath_query_xml_response = requests.get(poem_versions_xpath_query_url)
     
-    # Convert XML to a dictionary    
-    versions_dictionary = xmltodict.parse(versions_xpath_query_xml_response.content)
+    poem_versions_xml_root = lxml.etree.fromstring(poem_versions_xpath_query_xml_response.content)
+    poem_versions_list = poem_versions_xml_root.xpath('//exist:id/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
     
-    # Get only the elements of the dictionary that contain the version ids      
-    versions = versions_dictionary['exist:result']['exist:ids']['exist:id']
+    print('versions_xpath_query_xml_response.content: ' + poem_versions_xpath_query_xml_response.content.decode())
+    print('version list length: ' + str(len(poem_versions_list)))
+    print(poem_versions_list)
+    for v in poem_versions_list:
+        print(v)
 
-    # Is the versions dictionary a list?   
-    if isinstance(versions, list):
+    # Remove the characters from each key except for the poem number
+    poem_versions = [poem_version[11:] for poem_version in poem_versions_list]
+    poem_versions = [poem_version.replace("_top", "") for poem_version in poem_versions]
+    poem_versions = [poem_version.replace("_", "") for poem_version in poem_versions] 
+          
         
-        # Remove the characters from each key except for the poem number
-        versions = [version[11:] for version in versions]
-        versions = [version.replace("_top", "") for version in versions]         
-    else:     
-        #  If not a list, create one and insert the single value and remove the characters from each key except for the poem number 
-        versions = []
-        versions.insert(0, versions_dictionary['exist:result']['exist:ids']['exist:id'])
-        versions = [version[11:] for version in versions]
-        versions = [version.replace("_top", "") for version in versions]   
+    '''Get the manuscript ids for the selected poem version
+    ====================================================
+    '''    
+    manuscripts_ids_list = []  
+          
+    manuscripts_ids_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + poem_version +'_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20' 
+    manuscripts_ids_xpath_query_xml_response = requests.get(manuscripts_ids_xpath_query_url)
+    print(type(manuscripts_ids_xpath_query_xml_response))
+    
+    print('manuscripts_ids_xpath_query_xml_response.content: ' + manuscripts_ids_xpath_query_xml_response.content.decode())
+    
+    # Convert XML response to an XML tree
+    manuscripts_ids_xml_root = lxml.etree.fromstring(manuscripts_ids_xpath_query_xml_response.content)
+    
+    # Create list from output of xpath query                             
+    manuscripts_ids_list = manuscripts_ids_xml_root.xpath('//exist:value/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
+    
+    # Create a count of manuscripts
+    manuscripts_ids_count = len(manuscripts_ids_list)
+    
+    # Create range of manuscripts
+    manuscripts_ids_range = range(0+1,manuscripts_ids_count+1)
+    
+    has_manuscripts = ''
+    has_multiple_manuscripts = ''
+    
+    print(type(manuscripts_ids_list)) 
+    
+    print('manuscripts_ids_list length is: ' + str(len(manuscripts_ids_list)))
+    
+    for m in manuscripts_ids_list:
+        print(m)     
         
-        
+    print('number of Manuscripts: ' + str(len(manuscripts_ids_list)))              
+    
+    # Set value of has_multiple_manuscripts variable if the list has more than one index
+    if len(manuscripts_ids_list) == 0:
+        has_multiple_manuscripts = 0    
+    else:    
+        if len(manuscripts_ids_list) < 2:
+            has_multiple_manuscripts = 0
+        else:
+            has_multiple_manuscripts = 1            
+            
+    ''' Get the title of the current manuscript
+    ============================================
+    '''            
+    manuscript_title = ''
+    manuscript_title_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22' + manuscripts_ids_list[int(manuscript_version) - 1] + '_' + manuscript_type_text + '%22]/tei:head'
+    manuscript_title_xpath_query_xml_response = requests.get(manuscript_title_query_url)
+    
+    manuscript_title_xml_root = lxml.etree.fromstring(manuscript_title_xpath_query_xml_response.content)
+    manuscript_title_list = manuscript_title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
+    manuscript_title = manuscript_title_list[0]
+    
+    ''' Get the current manuscript xml:id
+    ============================================
+    '''               
+    current_manuscript_xml_id = manuscripts_ids_list[int(manuscript_version) - 1]
+            
     context = {
+        'current_manuscript_type': manuscript_type_text,
+        'current_manuscript_xml_id': current_manuscript_xml_id,
         'exist_path': exist_path,
         'has_multiple_manuscripts': has_multiple_manuscripts,
-        'manuscript_ref': manuscript_ref,
-        'manuscripts_list': manuscripts_list,
+        'manuscripts_ids_count': manuscripts_ids_count,
+        'manuscripts_ids_list': manuscripts_ids_list,
+        'manuscripts_ids_range': manuscripts_ids_range,
+        'manuscripts_ids_xpath_query_url': manuscripts_ids_xpath_query_url,
+        'manuscript_version': manuscript_version,
+        'manuscript_title': manuscript_title,        
         'myrddin_id': myrddin_id,
+        'poem_versions': poem_versions,
+        'poem_version': poem_version,
         'request': request,
-        'title': title,
-        'versions': versions,
-        'version': version,
+        'title': title
         }    
     return render(request, 'myrddin/poem-manuscript-test.html', context)                
 
@@ -160,100 +194,134 @@ Passes results to page template
 
 """
 def Poem(request, myrddin_id="1"):
-
-    # Is there a keyword search parameter in the URL?
-    if request.method == 'GET' and 'q' in request.GET:
-        keyword = request.GET['q']
-    else:
-        keyword = ""
-
     # Is there a version number parameter in the URL?
     if request.method == 'GET' and 'v' in request.GET:
-        version = request.GET['v']
+        poem_version = request.GET['v']
     else:
-        version = "1"    
+        poem_version = "1"    
         
     # Is there a manuscript version number parameter in the URL?
     manuscript = '1'
     if request.method == 'GET' and 'm' in request.GET:
-        manuscript_ref = request.GET['m']
+        manuscript_version = request.GET['m']
     else:
-        manuscript_ref = '1'    
+        manuscript_version = '1'  
         
-    '''Get the manuscripts for the selected poem version
-    ====================================================
-    '''    
-    manuscripts = ""  
-          
-    manuscripts_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + version +'_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20' 
-    manuscripts_xpath_query_xml_response = requests.get(manuscripts_xpath_query_url)
-    print(type(manuscripts_xpath_query_xml_response))
-   
-    manuscripts_xml_root = lxml.etree.fromstring(manuscripts_xpath_query_xml_response.content)
-                             
-    manuscripts_list = manuscripts_xml_root.xpath('//exist:value/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
+    # Is there a manuscript type parameter in the URL?
+    manuscript_type = ''
+    manuscript_type_text = 'mydryddol'
     
-    has_manuscripts = ''
-    has_multiple_manuscripts = ''         
-    
-    if len(manuscripts_list) == 0:
-        has_multiple_manuscripts = 0    
-    else:    
-        if len(manuscripts_list) < 2:
-            has_multiple_manuscripts = 0
+    if request.method == 'GET' and 'mt' in request.GET:
+        manuscript_type = request.GET['mt']
+        if manuscript_type == 'm':
+            manuscript_type_text = 'mydryddol'
         else:
-            has_multiple_manuscripts = 1   
-            
-    
+            manuscript_type_text = 'diplomatig' 
+    print('manuscript type: ' + manuscript_type_text)
+               
     ''' Get the title of the poem
     ====================================================
     '''
     title = ''
-    
-    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin' + myrddin_id + '_' + version + '_top%22]/tei:head'
+    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + manuscript_version + '_top%22]/tei:head'
     title_xpath_query_xml_response = requests.get(title_xpath_query_url)
     
-    # Convert XML to a dictionary    
-    title_dictionary = xmltodict.parse(title_xpath_query_xml_response.content)
-    
-    # Get the value of the title key from the dictionary
-    title = title_dictionary['exist:result']['head'].get('#text')
-      
-    # Get the versions of the poem
-    versions = ""        
-    # previous_versions_xpath_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;declare%20variable%20$results%20:=%20doc(%27/db/apps/myrddin/data/myrddin_%s.xml%27)//tei:div[@type=%22lev0%22];%3Csections%3E{for%20$result%20in%20$results%20return%20%3Csection%3E{$result/@xml:id/string()}%3C/section%3E}%3C/sections%3E' % myrddin_id
-    versions_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei%3D%22http%3A%2F%2Fwww.tei-c.org%2Fns%2F1.0%22%3Bdeclare%20variable%20%24results%20%3A%3D%20doc(%27%2Fdb%2Fapps%2Fmyrddin%2Fdata%2Fmyrddin_' + myrddin_id + '.xml%27)%2F%2Ftei%3Adiv%5B%40type%3D%22lev0%22%5D%3B%3Cexist:ids%3E%7Bfor%20%24result%20in%20%24results%20return%20%3Cexist:id%3E%7B%24result%2F%40xml%3Aid%2Fstring()%7D%3C%2Fexist:id%3E%7D%3C%2Fexist:ids%3E%09%0A' 
-    versions_xpath_query_xml_response = requests.get(versions_xpath_query_url)
-    
-    # Convert XML to a dictionary    
-    versions_dictionary = xmltodict.parse(versions_xpath_query_xml_response.content)
-    
-    # Get only the elements of the dictionary that contain the version ids      
-    versions = versions_dictionary['exist:result']['exist:ids']['exist:id']
+    title_xml_root = lxml.etree.fromstring(title_xpath_query_xml_response.content)
+    title_list = title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
+    title = title_list[0]
 
-    # Is the versions dictionary a list?   
-    if isinstance(versions, list):
+
+    ''' Get the versions of the poem
+    ====================================================
+    '''    
+    poem_versions = ""        
+    # previous_versions_xpath_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;declare%20variable%20$results%20:=%20doc(%27/db/apps/myrddin/data/myrddin_%s.xml%27)//tei:div[@type=%22lev0%22];%3Csections%3E{for%20$result%20in%20$results%20return%20%3Csection%3E{$result/@xml:id/string()}%3C/section%3E}%3C/sections%3E' % myrddin_id
+    poem_versions_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei%3D%22http%3A%2F%2Fwww.tei-c.org%2Fns%2F1.0%22%3Bdeclare%20variable%20%24results%20%3A%3D%20doc(%27%2Fdb%2Fapps%2Fmyrddin%2Fdata%2Fmyrddin_' + myrddin_id + '.xml%27)%2F%2Ftei%3Adiv%5B%40type%3D%22lev0%22%5D%3B%3Cexist:ids%3E%7Bfor%20%24result%20in%20%24results%20return%20%3Cexist:id%3E%7B%24result%2F%40xml%3Aid%2Fstring()%7D%3C%2Fexist:id%3E%7D%3C%2Fexist:ids%3E%09%0A' 
+    poem_versions_xpath_query_xml_response = requests.get(poem_versions_xpath_query_url)
+    
+    poem_versions_xml_root = lxml.etree.fromstring(poem_versions_xpath_query_xml_response.content)
+    poem_versions_list = poem_versions_xml_root.xpath('//exist:id/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
+    
+    print('versions_xpath_query_xml_response.content: ' + poem_versions_xpath_query_xml_response.content.decode())
+    print('version list length: ' + str(len(poem_versions_list)))
+    print(poem_versions_list)
+    for v in poem_versions_list:
+        print(v)
+
+    # Remove the characters from each key except for the poem number
+    poem_versions = [poem_version[11:] for poem_version in poem_versions_list]
+    poem_versions = [poem_version.replace("_top", "") for poem_version in poem_versions]
+    poem_versions = [poem_version.replace("_", "") for poem_version in poem_versions] 
+          
         
-        # Remove the characters from each key except for the poem number
-        versions = [version[11:] for version in versions]
-        versions = [version.replace("_top", "") for version in versions]         
-    else:     
-        #  If not a list, create one and insert the single value and remove the characters from each key except for the poem number 
-        versions = []
-        versions.insert(0, versions_dictionary['exist:result']['exist:ids']['exist:id'])
-        versions = [version[11:] for version in versions]
-        versions = [version.replace("_top", "") for version in versions]          
-                        
+    '''Get the manuscript ids for the selected poem version
+    ====================================================
+    '''    
+    manuscripts_ids_list = []  
+          
+    manuscripts_ids_xpath_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + poem_version +'_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20' 
+    manuscripts_ids_xpath_query_xml_response = requests.get(manuscripts_ids_xpath_query_url)
+    print(type(manuscripts_ids_xpath_query_xml_response))
+    
+    print('manuscripts_ids_xpath_query_xml_response.content: ' + manuscripts_ids_xpath_query_xml_response.content.decode())
+    
+    # Convert XML response to an XML tree
+    manuscripts_ids_xml_root = lxml.etree.fromstring(manuscripts_ids_xpath_query_xml_response.content)
+    
+    # Create list from output of xpath query                             
+    manuscripts_ids_list = manuscripts_ids_xml_root.xpath('//exist:value/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
+    
+    has_manuscripts = ''
+    has_multiple_manuscripts = ''
+    
+    print(type(manuscripts_ids_list)) 
+    
+    print('manuscripts_ids_list length is: ' + str(len(manuscripts_ids_list)))
+    
+    for m in manuscripts_ids_list:
+        print(m)     
+        
+    print('number of Manuscripts: ' + str(len(manuscripts_ids_list)))              
+    
+    # Set value of has_multiple_manuscripts variable if the list has more than one index
+    if len(manuscripts_ids_list) == 0:
+        has_multiple_manuscripts = 0    
+    else:    
+        if len(manuscripts_ids_list) < 2:
+            has_multiple_manuscripts = 0
+        else:
+            has_multiple_manuscripts = 1            
+            
+    ''' Get the title of the current manuscript
+    ============================================
+    '''            
+    manuscript_title = ''
+    manuscript_title_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22' + manuscripts_ids_list[int(manuscript_version) - 1] + '_' + manuscript_type_text + '%22]/tei:head'
+    manuscript_title_xpath_query_xml_response = requests.get(manuscript_title_query_url)
+    
+    manuscript_title_xml_root = lxml.etree.fromstring(manuscript_title_xpath_query_xml_response.content)
+    manuscript_title_list = manuscript_title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
+    manuscript_title = manuscript_title_list[0]
+    
+    ''' Get the current manuscript xml:id
+    ============================================
+    '''               
+    current_manuscript_xml_id = manuscripts_ids_list[int(manuscript_version) - 1]
+            
     context = {
+        'current_manuscript_type': manuscript_type_text,
+        'current_manuscript_xml_id': current_manuscript_xml_id,
         'exist_path': exist_path,
         'has_multiple_manuscripts': has_multiple_manuscripts,
-        'manuscript_ref': manuscript_ref,
-        'manuscripts_list': manuscripts_list,
+        'manuscripts_ids_list': manuscripts_ids_list,
+        'manuscripts_ids_xpath_query_url': manuscripts_ids_xpath_query_url,
+        'manuscript_version': manuscript_version,
+        'manuscript_title': manuscript_title,        
         'myrddin_id': myrddin_id,
+        'poem_versions': poem_versions,
+        'poem_version': poem_version,
         'request': request,
-        'title': title,
-        'versions': versions,
-        'version': version,
+        'title': title
         }    
     return render(request, 'myrddin/poem-base.html', context)
 

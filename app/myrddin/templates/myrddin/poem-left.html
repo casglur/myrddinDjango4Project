@@ -12,7 +12,7 @@
 			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 			</pb-document>
 			<pb-progress></pb-progress>
-			<pb-view src="myrddin" xpath="/TEI/text/body/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_top']/head" subscribe="myrddin" disable-history="true">
+			<pb-view src="myrddin" xpath="/TEI/text/body/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" subscribe="myrddin" disable-history="true">
 				<pb-param name="header" value="short"></pb-param>
 			</pb-view>
 		</pb-page>
@@ -21,7 +21,7 @@
 		<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
 			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
 			<pb-progress>Please wait - content is loading...</pb-progress>
-			<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_testun_gwr']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+			<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_testun_gwr']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
 		</pb-page>
 		<!-- <pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="mod">
 			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>

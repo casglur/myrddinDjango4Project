@@ -46,7 +46,33 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<h1>Get Manuscript</h1>
+		<h1>Get Manuscripts</h1>
+		<div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
+			{% if has_multiple_manuscripts == 1 %}
+				<div class="form-group" id="manuscripts-select">
+					<label for="manuscripts-select">Manuscripts: </label>
+					<select class="form-select" aria-label="Manuscript Versions" id="manuscript-select" name="manuscript-select">
+						<option selected>Dewis...</option>
+						{% for m in manuscripts_ids_list %}
+								<option value="{{ forloop.counter }}">{{ m|safe }}</option>
+						{% endfor %}				
+					</select>	
+				</div>
+			{% endif %}	
+		<div class="poems-container">
+			<p>Manuscript Version: {{ manuscript_version }}</p>
+			<p>Manuscript XML ID: {{ current_manuscript_xml_id }}</p>
+			<p>Manuscript Title: {{ manuscript_title }}</p>
+			<p>Manuscript Type: {{ current_manuscript_type }}</p>
+			<hr>
+			<pb-page id="manuscript-view-page"  endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+				<pb-document id="myrddin" path="myrddin_009.xml" odd="myrddin">
+					<h3>Please wait - content is loading...</h3>
+				</pb-document>
+				<pb-progress></pb-progress>
+				<pb-view id="manuscript-content" src="myrddin" id="manuscript-view" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}_{{ current_manuscript_type }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >	
+			</pb-page>
+		</div>		
 		<table class="table table-bordered table-dark">
 			<thead>
 			  <tr>
@@ -55,79 +81,66 @@
 			  </tr>
 			</thead>
 			<tbody>
+			<tr>
+				<th scope="row">request</th>
+				<td>{{ request }}</td>
+			</tr>				
 			  <tr>
 				<th scope="row">myrddin_id</th>
 				<td>{{ myrddin_id }}</td>
 			  </tr>
 			  <tr>
+				<th scope="row">poem_versions</th>
+				<td>{{ poem_versions }}</td>
+			  </tr>				  
+			  <tr>
+				<th scope="row">current poem_version</th>
+				<td>{{ poem_version }}</td>
+			  </tr>				  
+			  <tr>
 				<th scope="row">title</th>
 				<td>{{ title }}</td>
-			  </tr>			  
-			  <tr>
-				<th scope="row">request</th>
-				<td>{{ request }}</td>
-			  </tr>
-			  <tr>
-				<th scope="row">exist_path</th>
-				<td>{{ exist_path }}</td>
-			  </tr>
+			  </tr>				  	  
 			  <tr>
 				<th scope="row">has_multiple_manuscripts</th>
 				<td>{{ has_multiple_manuscripts }}</td>
 			  </tr>
 			  <tr>
-				<th scope="row">manuscript_ref</th>
-				<td>{{ manuscript_ref }}</td>
+				<th scope="row">current manuscript_version</th>
+				<td>{{ manuscript_version }}</td>
 			  </tr>
 			  <tr>
 				<th scope="row">manuscripts_list</th>
-				<td>{{ manuscripts_list }}</td>
-			  </tr>
-			  <tr>
-				<th scope="row">version</th>
-				<td>{{ version }}</td>
+				<td>{{ manuscripts_ids_list }}</td>
 			  </tr>					  
 			  <tr>
-				<th scope="row">versions</th>
-				<td>{{ versions }}</td>
+				<th scope="row">number of manuscripts</th>
+				<td>{{ manuscripts_ids_count }}</td>
 			  </tr>	
 			  <tr>
 				<th scope="row">manuscripts_xpath_query_url</th>
-				<td>https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin' + myrddin_id + '_1_top%22]//tei:div[@type=%22llawysgrifau%22]/tei:div[@xml:id]/string(@xml:id)&_howmany=20'</td>
+				<td>{{ manuscripts_ids_xpath_query_url }}</td>
 			  </tr>
+			  <tr>
+				<th scope="row">exist_path</th>
+				<td>{{ exist_path }}</td>
+			  </tr>				  
 			</tbody>
 		  </table>
-		  <div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
-			{% if has_multiple_manuscripts == 1 %}
-				<div class="form-group" id="manuscripts-select">
-					<label for="manuscripts-select">Llawysgrifau: </label>
-					<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
-						<option selected>Dewis...</option>
-						{% for m in manuscripts_list %}
-							<option>{{ m|safe }}</option>
-						{% endfor %}				
-					</select>	
-				</div>
-			{% endif %}	
-			<div class="poems-container">
-				<pb-page id="manuscript-view-page" endpoint="" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
-					{% if manuscript_version == '1' %}
-					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[1]" emit="myrddin" subscribe="myrddin" disable-history="true" >
-					{% else %}
-					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[@xml:id='{{ manuscript_version }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
-					{% endif %}	
-					
-					{% if keyword %}
-					<pb-param name="query" value="{{ keyword }}" />
-					{% endif %}
-					</pb-view>	    
-				</pb-page>
-			</div>
 		</div>
 	</div>
+	<script language="JavaScript">
+		$(function(){
+			$("#version-select").change(function(){
+				window.location='{{ request.path }}?v=' + this.value
+			});
+		});
+	
+		$(function(){
+			$("#manuscript-select").change(function(){
+				window.location='{{ request.path }}?v={{ poem_version }}&m=' + this.value
+			});
+		});			
+	</script>
 </body>
 </html>
