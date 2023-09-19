@@ -44,10 +44,19 @@
 {% include "myrddin/myrddin-blockUI.html" %}
 
 </head>
+
 <body>
 	<div class="container-fluid">
 		<h1>Get Manuscripts</h1>
-		<div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
+			<div class="form-group" id="versions-select">
+				<label for="version-select">Versions and additional material: </label>
+				<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
+					<option selected>Dewis...</option>
+					{% for v in poem_versions %}
+						<option>{{ v|safe }}</option>
+					  {% endfor %}				
+				</select>	
+			</div>
 			{% if has_multiple_manuscripts == 1 %}
 				<div class="form-group" id="manuscripts-select">
 					<label for="manuscripts-select">Manuscripts: </label>
@@ -58,7 +67,7 @@
 						{% endfor %}				
 					</select>	
 				</div>
-			{% endif %}	
+			{% endif %}
 		<div class="poems-container">
 			<p>Manuscript Version: {{ manuscript_version }}</p>
 			<p>Manuscript XML ID: {{ current_manuscript_xml_id }}</p>
@@ -133,6 +142,7 @@
 		$(function(){
 			$("#version-select").change(function(){
 				window.location='{{ request.path }}?v=' + this.value
+
 			});
 		});
 	
