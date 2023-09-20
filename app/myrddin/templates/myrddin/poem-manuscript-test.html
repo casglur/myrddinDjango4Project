@@ -53,7 +53,7 @@
 				<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
 					<option selected>Dewis...</option>
 					{% for v in poem_versions %}
-						<option>{{ v|safe }}</option>
+						<option value="{{ v|safe }}">{{ v|safe }}</option>
 					  {% endfor %}				
 				</select>	
 			</div>
@@ -73,9 +73,10 @@
 			<p>Manuscript XML ID: {{ current_manuscript_xml_id }}</p>
 			<p>Manuscript Title: {{ manuscript_title }}</p>
 			<p>Manuscript Type: {{ current_manuscript_type }}</p>
+			<p>Xpath: //div[@xml:id='{{ current_manuscript_xml_id }}_{{ current_manuscript_type }}']</p>
 			<hr>
 			<pb-page id="manuscript-view-page"  endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-				<pb-document id="myrddin" path="myrddin_009.xml" odd="myrddin">
+				<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 					<h3>Please wait - content is loading...</h3>
 				</pb-document>
 				<pb-progress></pb-progress>
@@ -139,10 +140,14 @@
 		</div>
 	</div>
 	<script language="JavaScript">
+		// Set dropdown list values based on variable passed
+		$('#manuscript-select').val('{{ manuscript_version }}');
+		$('#version-select').val('{{ poem_version }}');
+
+		// Reload page based on drop down menu selections
 		$(function(){
 			$("#version-select").change(function(){
 				window.location='{{ request.path }}?v=' + this.value
-
 			});
 		});
 	
