@@ -47,7 +47,7 @@
 
 <body>
 	<div class="container-fluid">
-		<h1>Get Manuscripts</h1>
+		<h1>Get Manuscripts for {{ myrddin_id }}</h1>
 			<div class="form-group" id="versions-select">
 				<label for="version-select">Versions and additional material: </label>
 				<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
@@ -59,20 +59,27 @@
 			</div>
 			{% if has_multiple_manuscripts == 1 %}
 				<div class="form-group" id="manuscripts-select">
-					<label for="manuscripts-select">Manuscripts: </label>
+					<label for="manuscripts-select">Manuscript: </label>
 					<select class="form-select" aria-label="Manuscript Versions" id="manuscript-select" name="manuscript-select">
 						<option selected>Dewis...</option>
 						{% for m in manuscripts_ids_list %}
-								<option value="{{ forloop.counter }}">{{ m|safe }}</option>
+								<option value="{{ forloop.counter }}">{{ m|safe }} ({{ forloop.counter }})</option>
 						{% endfor %}				
 					</select>	
 				</div>
 			{% endif %}
+			<div class="form-group" id="manuscripts-type-select">
+				<label for="manuscripts-type-select">Manuscript Type: </label>
+				<select class="form-select" aria-label="Manuscript Versions" id="manuscript-type-select" name="manuscript-type-select">
+						<option value="d">Diplomatig</option>
+						<option  selected value="m">Mydryddol</option>			
+				</select>	
+			</div>			
 		<div class="poems-container">
 			<p>Manuscript Version: {{ manuscript_version }}</p>
 			<p>Manuscript XML ID: {{ current_manuscript_xml_id }}</p>
-			<p>Manuscript Title: {{ manuscript_title }}</p>
-			<p>Manuscript Type: {{ current_manuscript_type }}</p>
+			<p class="bg-dark text-white">Manuscript Title: {{ manuscript_title }}</p>
+			<p class="bg-success text-white">Manuscript Type: {{ current_manuscript_type }}</p>
 			<p>Xpath: //div[@xml:id='{{ current_manuscript_xml_id }}_{{ current_manuscript_type }}']</p>
 			<hr>
 			<pb-page id="manuscript-view-page"  endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
@@ -108,8 +115,8 @@
 				<td>{{ poem_version }}</td>
 			  </tr>				  
 			  <tr>
-				<th scope="row">title</th>
-				<td>{{ title }}</td>
+				<th scope="row">Poem title</th>
+				<td>{{ poem_title }}</td>
 			  </tr>				  	  
 			  <tr>
 				<th scope="row">has_multiple_manuscripts</th>
@@ -142,7 +149,8 @@
 	<script language="JavaScript">
 		// Set dropdown list values based on variable passed
 		$('#manuscript-select').val('{{ manuscript_version }}');
-		$('#version-select').val('{{ poem_version }}');
+		$('#manuscript-type-select').val('{{ manuscript_type_text }}');
+		$('#version-select').val('{{ poem_version }}');		
 
 		// Reload page based on drop down menu selections
 		$(function(){
@@ -155,7 +163,12 @@
 			$("#manuscript-select").change(function(){
 				window.location='{{ request.path }}?v={{ poem_version }}&m=' + this.value
 			});
-		});			
+		});	
+		$(function(){
+			$("#manuscript-type-select").change(function(){
+				window.location='{{ request.path }}?v={{ poem_version }}&m={{ manuscript_version }}&mt=' + this.value
+			});
+		});					
 	</script>
 </body>
 </html>
