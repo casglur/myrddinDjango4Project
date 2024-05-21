@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.shortcuts import redirect
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path('poem-manuscript/<slug:myrddin_id>/', views.PoemManuscript, name='poem_manuscript'),
     # path('', lambda req: redirect('/home/')),
     path('test', views.Test, name='test'),
+    path('layout-test/<slug:myrddin_id>/', TemplateView.as_view(template_name='myrddin/layout-test.html')),
     
     path('i18n/', include('django.conf.urls.i18n')),
     path('set_language/(?P<language_id>d+)/$', views.set_language, name='set_language'),
