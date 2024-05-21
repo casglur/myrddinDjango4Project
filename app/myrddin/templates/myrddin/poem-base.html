@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load i18n %}
 {% load static %}
 {% load flatpages %}
 <html lang="en">
@@ -60,28 +61,28 @@
 			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
 			    <ul class="navbar-nav">
 				    <li class="nav-item">
-   				      <a class="nav-link" href="/">Home</a>
+   				      <a class="nav-link" href="/">{% trans "Link_top_nav_home" %}</a>
 				    </li>
 				    <li class="nav-item dropdown">		    
-			      		<a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">The Project</a>
+			      		<a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_project" %}</a>
 						<div class="dropdown-menu" aria-labelledby="projectNavbarDropdown">
-						   <a class="dropdown-item" href="/project/about/">About</a>
-						   <a class="dropdown-item" href="/project/funders/">Funders</a>
-						   <a class="dropdown-item" href="/project/team/">Project Team</a>				   						   					   
+						   <a class="dropdown-item" href="/project/about/">{% trans "Link_top_nav_about" %}</a>
+						   <a class="dropdown-item" href="/project/funders/">{% trans "Link_top_nav_funders" %}</a>
+						   <a class="dropdown-item" href="/project/team/">{% trans "Link_top_nav_project_team" %}</a>				   						   					   
 						</div>			      		
 				    </li>				    
 				    <li class="nav-item dropdown">			      
-			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">The Edition</a>
+			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_edition" %}</a>
 						<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
-						   <a class="dropdown-item" href="/introduction/">Introduction</a>
-						   <a class="dropdown-item" href="/bibliography/">Bibliography</a>			   						   
+						   <a class="dropdown-item" href="/introduction/">{% trans "Link_top_nav_introduction" %}</a>
+						   <a class="dropdown-item" href="/bibliography/">{% trans "Link_top_nav_bibliography" %}</a>			   						   
 						</div>			      		
 				    </li>		    				    			     
 			<!-- Poem Dropdown Menu -->			  
 					<form method="GET" action="/poem-view" id="poem-select">
 						<div class="form-group float-left">
 							<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
-								<option value="#">Dewis...</option>
+								<option value="#">{% trans "dropdown_menu_poems" %}</option>
 								<option value="/poem/005">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
 								<option value="/poem/009">9 - A'th ofynnaf Ferddin, ddewin ddoniau</option>
 								<option value="/poem/010">10 - Sef y'th ofynnaf cyn gwasgod yr haf</option>
@@ -98,7 +99,45 @@
 		<!-- end of Header -->
 		<!-- Main Content-->
 		<div class="row myrddin-main-content">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<form action="{% url 'set_language' %}" method="post">  {#2#}
+							{% csrf_token %}  {#3#}
+							<select name="language">  {#4#}
+								{% get_current_language as LANGUAGE_CODE %}  {#5#}
+								{% get_available_languages as LANGUAGES %}  {#6#}
+								{% get_language_info_list for LANGUAGES as languages %}  {#7#}
+								{% for language in languages %}
+									<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>  {#8#}
+										{{ language.name_local }} ({{ language.code }})
+									</option>
+								{% endfor %}
+							</select>
+							<input type="submit" value="Switch">  {#9#}
+						</form>						
+						</p>
+					</div>
+			</div>
+
 			<div class="col">
+				<div class="row">
+					<div class="main-title">
+						<h3>
+							<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
+								<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
+								<pb-progress>Please wait - content is loading...</pb-progress>
+								<pb-view id="poem-left-content" type="single" src="myrddin" xpath="//div[@type='lev0'][@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+							</pb-page>	
+						</h3>
+						<hr>
+					</div>
+				</div>
+			<!-- This is the top level TEI Publisher XML document call. All of the other pb-view components reference this -->
+			<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+				<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
+			</pb-page>		
+			<!-- End -->						
 				<div class="row">
 					<div class="col-md-4">
 						<div class="row">
