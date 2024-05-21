@@ -1,33 +1,39 @@
 
+{% load i18n %}
 <div class="left-poem-container">
-	<!-- <p>
-		<button type="button" class="btn btn-primary" id="gwr_yes">Show Original Version</button>
-		<button type="button" class="btn btn-primary" id="mod_yes">Show Modern Version</button>
-	</p>	 -->
-	<div class="editor" id="editor">
-		<pb-view id="poem-editor" src="myrddin" xpath="/TEI/text/body/div/div/note[@type='golygydd']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
-	</div>
 	<div>
-		<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-			</pb-document>
-			<pb-progress></pb-progress>
-			<pb-view src="myrddin" xpath="/TEI/text/body/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" subscribe="myrddin" disable-history="true">
-				<pb-param name="header" value="short"></pb-param>
-			</pb-view>
-		</pb-page>
+		{% trans "inline_label_editor" %}: {{ editor_name }}
 	</div>
+	<div class="custom-control custom-switch">
+		{% if modern_choice == 'yes' %}
+			<input type="checkbox" class="custom-control-input" id="modernVersionSwitch" checked="checked">
+		{% else %}
+			<input type="checkbox" class="custom-control-input" id="modernVersionSwitch">
+		{% endif %}
+		<label class="custom-control-label" for="modernVersionSwitch">{% trans "inline_label_modern_spelling" %}</label>
+	</div>
+	<script>
+		function validate() {
+			const url = new URL(location.href);
+			console.log('current URL is: ' + url);
+			const params = new URLSearchParams(url.search);
+			console.log('URL parameters are: ' + url);
+			if (this.checked) {
+				params.delete("mod");
+				location.href = window.location.origin + window.location.pathname + "?" + params + "&mod=yes";
+			} else {
+				params.delete("mod");
+				location.href = window.location.origin + window.location.pathname + "?" + params + "&mod=no";
+			}
+		}
+		document.getElementById('modernVersionSwitch').addEventListener('click', validate);
+	</script>
 	<div>
-		<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
-			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-			<pb-progress>Please wait - content is loading...</pb-progress>
+		{% if modern_choice == 'yes' %}
+			<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_testun_mod']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+		{% else %}
 			<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_testun_gwr']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
-		</pb-page>
-		<!-- <pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="mod">
-			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-			<pb-progress>Please wait - content is loading...</pb-progress>
-			<pb-view type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[contains(concat(' ', @xml:id, ' '), 'testun_mod')][1]" emit="myrddin" subscribe="myrddin" disable-history="true"/>
-		</pb-page> -->
+		{% endif %}			
 	</div>
 </div>
 <hr>
