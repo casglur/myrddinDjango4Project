@@ -1,146 +1,158 @@
+
+{% load i18n %}
+
+
 <div class="right-poem-container">
-	{% if versions|length > 1 %}
-	<div class="versions">
+	{% if poem_versions|length > 1 %}
+	<div class="tab-content overflow-auto" id="poem-tabs">
 		<div class="form-group" id="versions-select">
-			<label for="version-select">Versions and additional material: </label>
+			<label for="version-select">{% trans "inline_label_versions" %}: </label>
 			<select class="form-select" aria-label="Poem Versions" id="version-select" name="version-select">
-				<option selected>Dewis...</option>
-				{% for v in versions %}
+				<option selected>{% trans "dropdown_menu_versions" %}</option>
+				{% for v in poem_versions %}
 					<option>{{ v|safe }}</option>
-			  	{% endfor %}				
-			</select>	
-		</div>	
-	</div>
+				  {% endfor %}				
+			</select>
+		</div>
 	{% else %}
 	<br>
 	{% endif %}
-	<ul class="nav nav-tabs" id="poem-tabs-links" role="tablist">
-		<li class="nav-item" role="presentation">
-			<button class="nav-link" id="cefndir-tab" data-toggle="tab" data-target="#cefndir" type="button" role="tab" aria-controls="cefndir" aria-selected="true">Cefndir</button>
+	<ul class="nav nav-tabs" id="poem-tabs-links">
+		<li class="nav-item">
+			<a class="nav-link active" href="#trosolwg" data-toggle="tab">{% trans "Tab_overview_notes_label" %}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#cefndir" data-toggle="tab">{% trans "Tab_background_notes_label" %}</a>
 		</li>								
-		<li class="nav-item" role="presentation">
-		<button class="nav-link" id="aralleiriad-tab" data-toggle="tab" data-target="#aralleiriad" type="button" role="tab" aria-controls="aralleiriad" aria-selected="false">Aralleiriad</button>
+		<li class="nav-item">
+			<a class="nav-link" href="#aralleiriad" data-toggle="tab">{% trans "Tab_paraphrase_label" %}</a>
+		</li>		
+		<li class="nav-item">
+			<a class="nav-link" href="#translation" data-toggle="tab">{% trans "Tab_translation_label" %}</a>
 		</li>
-		<li class="nav-item" role="presentation">
-		<button class="nav-link" id="translation-tab" data-toggle="tab" data-target="#translation" type="button" role="tab" aria-controls="translation" aria-selected="false">Translation</button>
+		<li class="nav-item">
+			<a class="nav-link" href="#esboniadol" data-toggle="tab">{% trans "Tab_explanatory_notes_label" %}</a>
 		</li>
-		<li class="nav-item" role="presentation">
-			<button class="nav-link" id="esboniadol-tab" data-toggle="tab" data-target="#esboniadol" type="button" role="tab" aria-controls="esboniadol" aria-selected="false">Esboniadol</button>
-		</li>
-		<li class="nav-item" role="presentation">
-			<button class="nav-link" id="llawysgrifau-tab" data-toggle="tab" data-target="#llawysgrifau" type="button" role="tab" aria-controls="llawysgrifau" aria-selected="false">Llawysgrifau</button>
-		</li>
-		<li class="nav-item" role="presentation">
-			<button class="nav-link" id="modern-tab" data-toggle="tab" data-target="#modern" type="button" role="tab" aria-controls="modern" aria-selected="false">Modern</button>
-		</li>																							
+		<li class="nav-item">
+			<a class="nav-link" href="#testunol" data-toggle="tab">{% trans "Tab_text_notes_label" %}</a>
+		</li>		
+		<li class="nav-item">
+			<a class="nav-link" href="#llawysgrifau" data-toggle="tab">{% trans "Tab_manuscripts_label" %}</a>
+		</li>																						
 	</ul>
-	<div class="tab-content overflow-auto" id="poem-tabs">
-		<div class="tab-pane fade show" id="cefndir" role="tabpanel" aria-labelledby="cefndir-tab">
-			<div class="poems-container">				
-				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
+		<div class="tab-pane fade" id="trosolwg">
+			<div class="poems-container">		
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_trosolwg']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
+						{% if keyword %}
+						<pb-param name="query" value="{{ keyword }}" />
+					{% endif %}
+					</pb-view>	    
+			</div>
+		</div>
+		<div class="tab-pane fade" id="cefndir">
+			<div class="poems-container">		
+				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
 					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_cefndir']/note[@type='Nodyn_cefndir']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
-					<pb-param name="query" value="{{ keyword }}" />
+						<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
 					</pb-view>	    
-				</pb-page>
 			</div>
 		</div>										
-		<div class="tab-pane fade" id="aralleiriad" role="tabpanel" aria-labelledby="aralleiriad-tab">
+		<div class="tab-pane fade" id="aralleiriad">
 			<div class="poems-container">
-				<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_aralleiriad']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_aralleiriad']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
-					<pb-param name="query" value="{{ keyword }}" />
+						<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
 					</pb-view>	    
-				</pb-page>
 			</div>
-		</div>
-		<div class="tab-pane fade" id="translation" role="tabpanel" aria-labelledby="translation-tab">
+		</div>	
+		<div class="tab-pane fade" id="translation">
 			<div class="poems-container">
-				<pb-page endpoint="" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_translation']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_translation']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
-					<pb-param name="query" value="{{ keyword }}" />
+						<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
 					</pb-view>	    
-				</pb-page>
 			</div>
 		</div>		
-		<div class="tab-pane fade" id="esboniadol" role="tabpanel" aria-labelledby="esboniadol-tab">
-			<div class="poems-container">
-				<pb-page endpoint="" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_esboniadol']/note[@type='Nodiadau_esboniadol']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+		<div class="tab-pane fade" id="esboniadol">
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_esboniadol']/note[@type='Nodiadau_esboniadol']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% if keyword %}
 					<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
 					</pb-view>	    
-				</pb-page>
 			</div>
 		</div>
-		<div class="tab-pane fade show active" id="llawysgrifau" role="tabpanel" aria-labelledby="llawysgrifau-tab">
-			<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=21&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
-			{% if has_multiple_manuscripts == 1 %}
-				<div class="form-group" id="manuscripts-select">
-					<label for="manuscripts-select">Llawysgrifau: </label>
-					<select class="form-select" aria-label="Poem Versions" id="manuscript-select" name="manuscript-select">
-						<option selected>Dewis...</option>
-						{% for m in manuscripts %}
-							<option>{{ m|safe }}</option>
-						{% endfor %}				
-					</select>	
-				</div>
-			{% endif %}	
+		<div class="tab-pane fade" id="testunol">
 			<div class="poems-container">
-				<pb-collapse emit="meta">
-					<div slot="collapse-trigger">About this text</div>
-					<pb-view slot="collapse-content" on-update src="intro" subscribe="meta"></pb-view>
-				</pb-collapse>
+					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_testunol']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					{% if keyword %}
+					<pb-param name="query" value="{{ keyword }}" />
+					{% endif %}
+					</pb-view>	    
+			</div>
+		</div>			
+		<div class="tab-pane fade" id="llawysgrifau">
+			<!--
+				<iframe src="https://viewer.library.wales/dist/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4400778/manifest.json&c=0&m=0&cv=21&config=../config/standalone.json&locales=en-GB:English%20(GB),cy-GB:Cymraeg,fr-FR:Fran%C3%A7ais%20(FR),pl-PL:Polski,sv-SE:Svenska&xywh=363,2529,2261,1898&r=0" width="560" height="420" allowfullscreen frameborder="0"></iframe>
+			-->
+			<div class="tab-content">
+				<span>Choose transcription type: <a class="btn btn-secondary btn-sm" href="{{ request.path }}?v={{ poem_version }}&m={{ manuscript_version }}&mt=d">Diplomatic</a>&nbsp;<a class="btn btn-secondary btn-sm" href="{{ request.path }}?v={{ poem_version }}&m={{ manuscript_version }}&mt=m">Metrical</a></span>
+				<span>Current transcription type: {{ current_manuscript_type }}</span>
+				{% if has_multiple_manuscripts == 1 %}
+					<div class="form-group" id="manuscripts-select">
+						<label for="manuscripts-select">Manuscripts: </label>
+						<select class="form-select" aria-label="Manuscript Versions" id="manuscript-select" name="manuscript-select">
+							<option selected>Dewis...</option>
+							{% for m in manuscripts_ids_list %}
+									<option value="{{ forloop.counter }}">{{ m|safe }}</option>
+							{% endfor %}				
+						</select> |
+					</div>
+				{% endif %}
+			</div>
+			<div class="poems-container">
 				<pb-page id="manuscript-view-page" endpoint="" emit="myrddin" class="embedded">
 					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
 						<h3>Please wait - content loading...</h3>
 					</pb-document>
 					<pb-progress></pb-progress>
+					<!-- top level manuscript notes -->
+					<div class="accordion" id="accordionExample">
+						<div class="card">
+						  <div class="card-header" id="headingOne">
+							<h2 class="mb-0">
+							  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Nodiadau
+							  </button>
+							</h2>
+						  </div>
+					  
+						  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+							<div class="card-body">
+								<pb-view src="myrddin" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}']/div[@type='manuscript_notes']/div[@type='cym']/note[@type='trefn_cym']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+								</pb-view>
+								<pb-view src="myrddin" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}']/div[@type='manuscript_notes']/div[@type='cym']/note[@type='llaw_cym']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+								</pb-view>
+								<pb-view src="myrddin" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}']/div[@type='manuscript_notes']/div[@type='cym']/note[@type='dyddiad_cym']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+								</pb-view>
+								<pb-view src="myrddin" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}']/div[@type='manuscript_notes']/div[@type='cym']/note[@type='nodiadau_trawsysgrifiad_cym']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+								</pb-view>
+							</div>
+						  </div>
+						</div>											
+					  </div>
+					<!-- manuscripts -->													
 					{% if manuscript_version == '1' %}
-					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[1]" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" id="manuscript-view" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}_{{ current_manuscript_type }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% else %}
-					<pb-view src="myrddin" id="manuscript-view" xpath="/TEI/text/body/div/div/div[@type='llawysgrifau']/div[@xml:id='{{ manuscript_version }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
+					<pb-view src="myrddin" id="manuscript-view" xpath="//div[@xml:id='{{ current_manuscript_xml_id }}_{{ current_manuscript_type }}']" emit="myrddin" subscribe="myrddin" disable-history="true" >
 					{% endif %}	
-					
 					{% if keyword %}
 					<pb-param name="query" value="{{ keyword }}" />
-					{% endif %}
-					</pb-view>	    
-				</pb-page>
-			</div>
-		</div>
-		<div class="tab-pane fade" id="modern" role="tabpanel" aria-labelledby="modern-tab">
-			<div class="poems-container">
-				<pb-page endpoint="" emit="myrddin" class="embedded">
-					<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin">
-						<h3>Please wait - content loading...</h3>
-					</pb-document>
-					<pb-progress></pb-progress>
-					<pb-view src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin{{ myrddin_id }}_{{ version }}_testun_mod']" emit="myrddin" subscribe="myrddin" disable-history="true" >
-					{% if keyword %}
-						<pb-param name="query" value="{{ keyword }}" />
 					{% endif %}
 					</pb-view>	    
 				</pb-page>
@@ -148,34 +160,43 @@
 		</div>
 	  </div>
 	  <hr>
-	  myrddin_id: {{ myrddin_id }}
-	  <br>
-	  Version: {{ version }}<br>
-	  Versions list: {{ versions }}	
+
 </div>
 <script language="JavaScript">
+	// Set dropdown list values based on variable passed
+	$('#manuscript-select').val('{{ manuscript_version }}');
+	$('#manuscript-type-select').val('{{ manuscript_type_text }}');
+	$('#version-select').val('{{ poem_version }}');		
+
+	// Reload page based on drop down menu selections
 	$(function(){
 		$("#version-select").change(function(){
-			window.location='{{request.path}}?v=' + this.value
+			window.location='{{ request.path }}?v=' + this.value + '&mt={{ manuscript_type_text }}'
 		});
 	});
 
 	$(function(){
 		$("#manuscript-select").change(function(){
-			window.location='{{request.get_full_path}}&m=' + this.value
+			window.location='{{ request.path }}?v={{ poem_version }}&m=' + this.value + '&mt={{ manuscript_type_text }}'
+		});
+	});	
+	$(function(){
+		$("#manuscript-type-select").change(function(){
+			window.location='{{ request.path }}?v={{ poem_version }}&m={{ manuscript_version }}&mt=' + this.value
 		});
 	});
-	
-    window.addEventListener('load', () => {
-        document.addEventListener('pb-collapse-open', (ev) => {
-            if (ev.detail && ev.detail.key && ev.detail.key === 'meta') {
-                document.dispatchEvent(new CustomEvent('pb-update', {
-                    detail: {
-                        key: 'meta'
-                    }
-                }));
-            }
-        });
-    });
 
+	$(document).ready(function () {
+	$('a[data-toggle="tab"]').on("show.bs.tab", function (e) {
+		localStorage.setItem("activeTab", $(e.target).attr("href"));
+	});
+
+	// Set activeTab variable on page load from localStorage
+	var activeTab = localStorage.getItem("activeTab");
+	//Select tab based on activeTab variable
+	if (activeTab) {
+		$('#poem-tabs-links a[href="' + activeTab + '"]').tab("show");
+	}
+	});	
+	
 </script>
