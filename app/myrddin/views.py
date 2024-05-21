@@ -69,16 +69,19 @@ def PoemManuscript(request, myrddin_id="1"):
             manuscript_type_text = 'diplomatig' 
     print('manuscript type: ' + manuscript_type_text)
                
-    ''' Get the title of the poem
-    ====================================================
+    ''' Get the poem title base on the poem_version number passed
+    =============================================================
     '''
-    title = ''
-    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + manuscript_version + '_top%22]/tei:head'
-    title_xpath_query_xml_response = requests.get(title_xpath_query_url)
+    poem_title = ''
+    poem_title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + poem_version + '_top%22]/tei:head'
+    print('poem title xpath query url is: ' + str(poem_title_xpath_query_url))
+    poem_title_xpath_query_xml_response = requests.get(poem_title_xpath_query_url)
     
-    title_xml_root = lxml.etree.fromstring(title_xpath_query_xml_response.content)
-    title_list = title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
-    title = title_list[0]
+    poem_title_xml_root = lxml.etree.fromstring(poem_title_xpath_query_xml_response.content)
+    print('poem title xpath query response content is: ' + str(poem_title_xpath_query_xml_response.content))
+    poem_title_list = poem_title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
+    print('Poem titles list contents is: ' + str(poem_title_list))
+    poem_title = poem_title_list[0]
 
 
     ''' Get the versions of the poem
@@ -179,7 +182,7 @@ def PoemManuscript(request, myrddin_id="1"):
         'poem_versions': poem_versions,
         'poem_version': poem_version,
         'request': request,
-        'title': title
+        'poem_title': poem_title
         }    
     return render(request, 'myrddin/poem-manuscript-test.html', context)                
 
