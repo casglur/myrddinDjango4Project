@@ -194,6 +194,7 @@ Passes results to page template
 
 """
 def Poem(request, myrddin_id="1"):
+
     # Is there a version number parameter in the URL?
     if request.method == 'GET' and 'v' in request.GET:
         poem_version = request.GET['v']
@@ -271,6 +272,12 @@ def Poem(request, myrddin_id="1"):
     # Create list from output of xpath query                             
     manuscripts_ids_list = manuscripts_ids_xml_root.xpath('//exist:value/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
     
+    # Create a count of manuscripts
+    manuscripts_ids_count = len(manuscripts_ids_list)
+    
+    # Create range of manuscripts
+    manuscripts_ids_range = range(0+1,manuscripts_ids_count+1)
+    
     has_manuscripts = ''
     has_multiple_manuscripts = ''
     
@@ -313,7 +320,9 @@ def Poem(request, myrddin_id="1"):
         'current_manuscript_xml_id': current_manuscript_xml_id,
         'exist_path': exist_path,
         'has_multiple_manuscripts': has_multiple_manuscripts,
+        'manuscripts_ids_count': manuscripts_ids_count,
         'manuscripts_ids_list': manuscripts_ids_list,
+        'manuscripts_ids_range': manuscripts_ids_range,
         'manuscripts_ids_xpath_query_url': manuscripts_ids_xpath_query_url,
         'manuscript_version': manuscript_version,
         'manuscript_title': manuscript_title,        
@@ -323,6 +332,7 @@ def Poem(request, myrddin_id="1"):
         'request': request,
         'title': title
         }    
+
     return render(request, 'myrddin/poem-base.html', context)
 
 def Test(request):

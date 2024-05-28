@@ -40,8 +40,7 @@
 {% include "myrddin/tei-pub-deps.html" %}
 
 {% include "myrddin/myrddin-js-head.html" %}
-{% include "myrddin/bootstrap-js.html" %}
-{% include "myrddin/myrddin-blockUI.html" %}
+
 
 </head>
 
@@ -72,7 +71,13 @@
 			<p>Manuscript Version: {{ manuscript_version }}</p>
 			<p>Manuscript XML ID: {{ current_manuscript_xml_id }}</p>
 			<p>Manuscript Title: {{ manuscript_title }}</p>
-			<p>Manuscript Type: {{ current_manuscript_type }}</p>
+			<div class="form-group" id="manuscripts-type-select">
+				<label for="manuscripts-type-select">Manuscript Type: </label>
+				<select class="form-select" aria-label="Manuscript Versions" id="manuscript-type-select" name="manuscript-type-select">
+						<option value="d">Diplomatig</option>
+						<option  selected value="m">Mydryddol</option>			
+				</select>	
+			</div>	
 			<hr>
 			<pb-page id="manuscript-view-page"  endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
 				<pb-document id="myrddin" path="myrddin_009.xml" odd="myrddin">
@@ -138,11 +143,17 @@
 		  </table>
 		</div>
 	</div>
+	{% include "myrddin/bootstrap-js.html" %}	
 	<script language="JavaScript">
+		// Set dropdown list values based on variable passed
+		document.getElementById('manuscript-select').value = '{{ manuscript_version }}';
+		document.getElementById('manuscript-type-select').value = '{{ current_manuscript_type }}';
+		document.getElementById('version-select').value = '{{ poem_version }}';		
+
+		// Reload page based on drop down menu selections
 		$(function(){
 			$("#version-select").change(function(){
 				window.location='{{ request.path }}?v=' + this.value
-
 			});
 		});
 	
@@ -150,7 +161,12 @@
 			$("#manuscript-select").change(function(){
 				window.location='{{ request.path }}?v={{ poem_version }}&m=' + this.value
 			});
-		});			
+		});	
+		$(function(){
+			$("#manuscript-type-select").change(function(){
+				window.location='{{ request.path }}?v={{ poem_version }}&m={{ manuscript_version }}&mt=' + this.value
+			});
+		});					
 	</script>
 </body>
 </html>

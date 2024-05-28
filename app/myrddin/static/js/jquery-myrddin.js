@@ -1,8 +1,6 @@
-/* code to autosubmit poem dropdown */
 
-// $("#poem-selection").change(function () {
-//     $("#poem-select").submit();
-// });	
+
+/* code to autosubmit poem dropdown */
 
 // bind change event to select
 $('#poem-selection').on('change', function () {
