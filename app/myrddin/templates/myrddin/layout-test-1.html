@@ -15,16 +15,26 @@
             padding: 20px 0;
             text-align: center;
         }
-        .header h1 {
-            margin: 0;
-            font-size: 3rem;
+        .background-strip {
+            background-color: purple;
+            color: white;
+            height: 10rem;
+            padding: 20px 0;
+            text-align: left;
         }
         .content {
             background-color: white;
             padding: 30px;
             margin: 30px auto;
+            position: relative;
+            top: -99px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        .content h1 {
+            color: #fff;
+            position: relative;
+            top: -99px
+        }        
         .content h2 {
             color: #4b0082;
         }
@@ -41,10 +51,12 @@
 </head>
 <body>
     <div class="header">
-        <h1>myrddin.cymru</h1>
+        
     </div>
+    <div class="background-strip"></div>
     <div class="container">
         <div class="content">
+            <h1>myrddin.cymru</h1>
             <h2>5.I Cyfoesi Myrddin a Gwenddydd ei Chwaer</h2>
             <div class="editor">Edited By Ben Guy</div>
             <div class="poem">
