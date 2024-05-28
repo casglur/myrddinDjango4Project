@@ -36,6 +36,7 @@ urlpatterns = [
     # path('', lambda req: redirect('/home/')),
     path('test', views.Test, name='test'),
     path('layout-test/<slug:myrddin_id>/', TemplateView.as_view(template_name='myrddin/layout-test.html')),
+    path('layout-test-1/', TemplateView.as_view(template_name='myrddin/layout-test-1.html')),    
     
     path('i18n/', include('django.conf.urls.i18n')),
     path('set_language/(?P<language_id>d+)/$', views.set_language, name='set_language'),
