@@ -42,7 +42,7 @@
 
 {% include "myrddin/myrddin-js-head.html" %}
 {% include "myrddin/bootstrap-js.html" %}
-
+{% include "myrddin/myrddin-blockUI.html" %}
 
 </head>
 <body>
@@ -119,38 +119,136 @@
 						</p>
 					</div>
 			</div>
-
+			<!-- This is the top level TEI Publisher XML document call. All of the other pb-view components reference this -->
+			<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+				<pb-document id="myrddin" path="myrddin_005.xml" odd="myrddin"></pb-document>
+			</pb-page>		
+			<!-- End -->	
 			<div class="col">
 				<div class="row">
 					<div class="main-title">
 						<h3>
-							<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
-								<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-								<pb-progress>Please wait - content is loading...</pb-progress>
-								<pb-view id="poem-left-content" type="single" src="myrddin" xpath="//div[@type='lev0'][@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" emit="myrddin" subscribe="myrddin" disable-history="true"/>
-							</pb-page>	
+							<pb-view id="poem-left-content" type="single" src="myrddin" xpath="//div[@type='lev0'][@xml:id='myrddin_005_1_top']/head" emit="myrddin" subscribe="myrddin" disable-history="true"/>
 						</h3>
 						<hr>
 					</div>
-				</div>
-			<!-- This is the top level TEI Publisher XML document call. All of the other pb-view components reference this -->
-			<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-				<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-			</pb-page>		
-			<!-- End -->						
+				</div>					
 				<div class="row">
 					<div class="col-md-4">
 						<div class="row">
 							<div class="col myrddin-left-content-wrapper overflow-auto">						
 								<div class="myrddin-left-content">
-									{% include "myrddin/poem-left.html" %}						
+									<div class="left-poem-container">
+										<div>
+											{% trans "inline_label_editor" %}: {{ editor_name }}
+										</div>
+										<div class="custom-control custom-switch">
+											{% if modern_choice == 'yes' %}
+												<input type="checkbox" class="custom-control-input" id="modernVersionSwitch" checked="checked">
+											{% else %}
+												<input type="checkbox" class="custom-control-input" id="modernVersionSwitch">
+											{% endif %}
+											<label class="custom-control-label" for="modernVersionSwitch">{% trans "inline_label_modern_spelling" %}</label>
+										</div>
+										<script>
+											function validate() {
+												const url = new URL(location.href);
+												console.log('current URL is: ' + url);
+												const params = new URLSearchParams(url.search);
+												console.log('URL parameters are: ' + url);
+												if (this.checked) {
+													params.delete("mod");
+													location.href = window.location.origin + window.location.pathname + "?" + params + "&mod=yes";
+												} else {
+													params.delete("mod");
+													location.href = window.location.origin + window.location.pathname + "?" + params + "&mod=no";
+												}
+											}
+											document.getElementById('modernVersionSwitch').addEventListener('click', validate);
+										</script>
+										<div>
+											{% if modern_choice == 'yes' %}
+												<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_005_1_testun_mod']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+											{% else %}
+												<pb-view id="poem-left-content" type="single" src="myrddin" xpath="/TEI/text/body/div/div/div[@xml:id='myrddin_005_1_testun_gwr']" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+											{% endif %}			
+										</div>
+									</div>
+									<hr>					
 								</div>
 							</div>								 
 						</div>		
 					</div>	
 					<div class="col-md-8 myrddin-right-content-wrapper">
 						<div class="myrddin-right-content">
-							{% include "myrddin/poem-right.html" %}	
+							<!--Right Container Start-->
+							<div class="right-poem-container">
+								<!-- Tab navs -->
+								<ul class="nav nav-tabs" id="poem-tabs-links">
+									<li class="nav-item">
+										<a class="nav-link active" href="#trosolwg" data-toggle="tab">{% trans "Tab_overview_notes_label" %}</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#cefndir" data-toggle="tab">{% trans "Tab_background_notes_label" %}</a>
+									</li>								
+									<li class="nav-item">
+										<a class="nav-link" href="#aralleiriad" data-toggle="tab">{% trans "Tab_paraphrase_label" %}</a>
+									</li>		
+									<li class="nav-item">
+										<a class="nav-link" href="#translation" data-toggle="tab">{% trans "Tab_translation_label" %}</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" data-target="#esboniadol" data-toggle="tab">{% trans "Tab_explanatory_notes_label" %}</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" data-target="#testunol" data-toggle="tab">{% trans "Tab_text_notes_label" %}</a>
+									</li>		
+									<li class="nav-item">
+										<a class="nav-link" data-target="#llawysgrifau" data-toggle="tab">{% trans "Tab_manuscripts_label" %}</a>
+									</li>																						
+								</ul>
+								<!-- Tab navs End -->
+								<br>
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div class="tab-pane fade active show" id="trosolwg">
+										<div class="poems-container">		
+											Trosolwg
+										</div>
+									</div>
+									<div class="tab-pane fade" id="cefndir">
+										<div class="poems-container">		
+											Cefndir	
+										</div>
+									</div>										
+									<div class="tab-pane fade" id="aralleiriad">
+										<div class="poems-container">
+											Aralleiriad
+										</div>
+									</div>	
+									<div class="tab-pane fade" id="translation">
+										<div class="poems-container">
+											Translation    
+										</div>
+									</div>		
+									<div class="tab-pane fade" id="esboniadol">
+										Esboniadol   
+										</div>
+									</div>
+									<div class="tab-pane fade" id="testunol">
+										<div class="poems-container">
+											Testunol    
+										</div>
+									</div>			
+									<div class="tab-pane fade" id="llawysgrifau">
+										<div class="poems-container">
+											Llawysgrifau
+										</div>
+									</div>
+								</div>
+								<!-- Tab panes End -->
+							</div>
+							<!--Right Container End-->																			
 						</div>											
 					</div>
 				</div>	

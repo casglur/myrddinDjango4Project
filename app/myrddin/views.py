@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.shortcuts import render
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -5,7 +6,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from django.db.models import Q
 from django.db.models.functions import Cast
-from django.db.models import TextField 
+from django.db.models import TextField
+
+from django.http import HttpResponseRedirect
+
+from myrddin.models import Location
+
 from pip._vendor.packaging.version import _parse_letter_version
 
 import requests
@@ -21,22 +27,17 @@ app_url_path = '/myrddin'
 exist_path = 'http://localhost:8080'
 
 def custom_page_not_found_view(request, exception):
-    response = render(request, "emco/errors/404.html", {})
+    response = render(request, "myrddin/errors/404.html", {})
     response.status_code = 404
     return response
 
-def Location(request, location_id): 
+"""
+Function to load data from table
+"""
+def DataList(request):
+    objs = Location.objects.order_by('standard_form').all()
 
-    if request.method == 'GET' and 'q' in request.GET:
-        keyword = request.GET['q']
-    else:
-        keyword = ""
-
-    context = {
-        'exist_path': exist_path, 
-        'location_id': location_id,
-        }    
-    return render(request, 'myrddin/location.html', context)
+    return render(request,'myrddin/data-list-view.html',{'objs':objs})
 
 
 """
@@ -48,14 +49,16 @@ def PoemManuscript(request, myrddin_id="1"):
     if request.method == 'GET' and 'v' in request.GET:
         poem_version = request.GET['v']
     else:
-        poem_version = "1"    
+        poem_version = "1"
+    print('poem version request: ' + poem_version)
         
     # Is there a manuscript version number parameter in the URL?
     manuscript = '1'
     if request.method == 'GET' and 'm' in request.GET:
         manuscript_version = request.GET['m']
     else:
-        manuscript_version = '1'  
+        manuscript_version = '1'
+    print('manuscript version request: ' + manuscript_version)
         
     # Is there a manuscript type parameter in the URL?
     manuscript_type = ''
@@ -73,7 +76,7 @@ def PoemManuscript(request, myrddin_id="1"):
     ====================================================
     '''
     title = ''
-    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + manuscript_version + '_top%22]/tei:head'
+    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + poem_version + '_top%22]/tei:head'
     title_xpath_query_xml_response = requests.get(title_xpath_query_url)
     
     title_xml_root = lxml.etree.fromstring(title_xpath_query_xml_response.content)
@@ -91,6 +94,7 @@ def PoemManuscript(request, myrddin_id="1"):
     
     poem_versions_xml_root = lxml.etree.fromstring(poem_versions_xpath_query_xml_response.content)
     poem_versions_list = poem_versions_xml_root.xpath('//exist:id/text()', namespaces={ 'exist': 'http://exist.sourceforge.net/NS/exist'})
+    print('poem_versions_list: ' + str(poem_versions_list))
     
     print('versions_xpath_query_xml_response.content: ' + poem_versions_xpath_query_xml_response.content.decode())
     print('version list length: ' + str(len(poem_versions_list)))
@@ -158,6 +162,7 @@ def PoemManuscript(request, myrddin_id="1"):
     manuscript_title_xml_root = lxml.etree.fromstring(manuscript_title_xpath_query_xml_response.content)
     manuscript_title_list = manuscript_title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
     manuscript_title = manuscript_title_list[0]
+    print('manuscript title list: ' + str(manuscript_title_list))
     
     ''' Get the current manuscript xml:id
     ============================================
@@ -174,12 +179,15 @@ def PoemManuscript(request, myrddin_id="1"):
         'manuscripts_ids_range': manuscripts_ids_range,
         'manuscripts_ids_xpath_query_url': manuscripts_ids_xpath_query_url,
         'manuscript_version': manuscript_version,
-        'manuscript_title': manuscript_title,        
+        'manuscript_title': manuscript_title,      
+        'manuscript_title_query_url': manuscript_title_query_url,
+        'manuscript_title_list': manuscript_title_list,
         'myrddin_id': myrddin_id,
         'poem_versions': poem_versions,
         'poem_version': poem_version,
         'request': request,
-        'title': title
+        'title': title,
+        'title_xpath_query_url': title_xpath_query_url
         }    
     return render(request, 'myrddin/poem-manuscript-test.html', context)                
 
@@ -218,13 +226,19 @@ def Poem(request, myrddin_id="1"):
             manuscript_type_text = 'mydryddol'
         else:
             manuscript_type_text = 'diplomatig' 
-    print('manuscript type: ' + manuscript_type_text)
+    print('Manuscript type: ' + manuscript_type_text)
+    
+    # Has the user selected the modern view of the poem?
+    modern_choice = ''
+    if request.method == 'GET' and 'mod' in request.GET:
+        modern_choice = request.GET['mod']
+        print('Modern Version Selected')    
                
     ''' Get the title of the poem
     ====================================================
     '''
     title = ''
-    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + manuscript_version + '_top%22]/tei:head'
+    title_xpath_query_url ='https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)//tei:div[@xml:id=%22myrddin_' + myrddin_id + '_' + poem_version + '_top%22]/tei:head'
     title_xpath_query_xml_response = requests.get(title_xpath_query_url)
     
     title_xml_root = lxml.etree.fromstring(title_xpath_query_xml_response.content)
@@ -310,6 +324,17 @@ def Poem(request, myrddin_id="1"):
     manuscript_title_list = manuscript_title_xml_root.xpath('//tei:head/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
     manuscript_title = manuscript_title_list[0]
     
+    ''' Get the editor of the current poem
+    ============================================
+    '''            
+    editor_name = ''
+    editor_name_query_url = 'https://dh-existdb.swansea.ac.uk/exist/apps/myrddin/data?_query=declare%20namespace%20tei=%22http://www.tei-c.org/ns/1.0%22;doc(%27/db/apps/myrddin/data/myrddin_' + myrddin_id + '.xml%27)/tei:TEI/tei:text/tei:body/tei:div/tei:div[1]/tei:note[1]'
+    editor_name_xpath_query_xml_response = requests.get(editor_name_query_url)
+    
+    editor_name_xml_root = lxml.etree.fromstring(editor_name_xpath_query_xml_response.content)
+    editor_name_list = editor_name_xml_root.xpath('//tei:note/text()', namespaces={ 'tei': 'http://www.tei-c.org/ns/1.0'})
+    editor_name = editor_name_list[0]
+    
     ''' Get the current manuscript xml:id
     ============================================
     '''               
@@ -318,6 +343,7 @@ def Poem(request, myrddin_id="1"):
     context = {
         'current_manuscript_type': manuscript_type_text,
         'current_manuscript_xml_id': current_manuscript_xml_id,
+        'editor_name': editor_name,
         'exist_path': exist_path,
         'has_multiple_manuscripts': has_multiple_manuscripts,
         'manuscripts_ids_count': manuscripts_ids_count,
@@ -325,7 +351,8 @@ def Poem(request, myrddin_id="1"):
         'manuscripts_ids_range': manuscripts_ids_range,
         'manuscripts_ids_xpath_query_url': manuscripts_ids_xpath_query_url,
         'manuscript_version': manuscript_version,
-        'manuscript_title': manuscript_title,        
+        'manuscript_title': manuscript_title,
+        'modern_choice': modern_choice,        
         'myrddin_id': myrddin_id,
         'poem_versions': poem_versions,
         'poem_version': poem_version,
@@ -334,6 +361,12 @@ def Poem(request, myrddin_id="1"):
         }    
 
     return render(request, 'myrddin/poem-base.html', context)
+
+def set_language(request):
+    if request.GET.has_key('language_id'):  # Set language in Session variable
+        # Redirect to home
+        request.session['language_id'] = request.GET['language_id']
+    return HttpResponseRedirect('/')
 
 def Test(request):
     context = {}    

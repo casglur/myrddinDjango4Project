@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Myrddin Poetry Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-21 12:55+0100\n"
+"PO-Revision-Date: 2024-05-21 12:55+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#: .\myrddin\templates\myrddin\poem-base.html:64
+msgid "Link_top_nav_home"
+msgstr "Home"
+
+#: .\myrddin\templates\myrddin\poem-base.html:67
+msgid "Link_top_nav_the_project"
+msgstr "The project"
+
+#: .\myrddin\templates\myrddin\poem-base.html:69
+msgid "Link_top_nav_about"
+msgstr "About"
+
+#: .\myrddin\templates\myrddin\poem-base.html:70
+msgid "Link_top_nav_funders"
+msgstr "Funders"
+
+#: .\myrddin\templates\myrddin\poem-base.html:71
+msgid "Link_top_nav_project_team"
+msgstr "Project team"
+
+#: .\myrddin\templates\myrddin\poem-base.html:75
+msgid "Link_top_nav_the_edition"
+msgstr "The edition"
+
+#: .\myrddin\templates\myrddin\poem-base.html:77
+msgid "Link_top_nav_introduction"
+msgstr "Introduction"
+
+#: .\myrddin\templates\myrddin\poem-base.html:78
+msgid "Link_top_nav_bibliography"
+msgstr "Bibliography"
+
+#: .\myrddin\templates\myrddin\poem-base.html:85
+msgid "dropdown_menu_poems"
+msgstr "Choose"
+
+#: .\myrddin\templates\myrddin\poem-left.html:5
+msgid "inline_label_editor"
+msgstr "Editor"
+
+#: .\myrddin\templates\myrddin\poem-left.html:13
+msgid "inline_label_modern_spelling"
+msgstr "Modern spelling"
+
+#: .\myrddin\templates\myrddin\poem-right.html:9
+msgid "inline_label_versions"
+msgstr "Versions and additional material"
+
+#: .\myrddin\templates\myrddin\poem-right.html:11
+msgid "dropdown_menu_versions"
+msgstr "Choose"
+
+#: .\myrddin\templates\myrddin\poem-right.html:22
+msgid "Tab_overview_notes_label"
+msgstr "Overview"
+
+#: .\myrddin\templates\myrddin\poem-right.html:25
+msgid "Tab_background_notes_label"
+msgstr "Background"
+
+#: .\myrddin\templates\myrddin\poem-right.html:28
+msgid "Tab_paraphrase_label"
+msgstr "Paraphrase"
+
+#: .\myrddin\templates\myrddin\poem-right.html:31
+msgid "Tab_translation_label"
+msgstr "Translation"
+
+#: .\myrddin\templates\myrddin\poem-right.html:34
+msgid "Tab_explanatory_notes_label"
+msgstr "Explanatory"
+
+#: .\myrddin\templates\myrddin\poem-right.html:37
+msgid "Tab_text_notes_label"
+msgstr "Textual"
+
+#: .\myrddin\templates\myrddin\poem-right.html:40
+msgid "Tab_manuscripts_label"
+msgstr "Manuscripts"
+
+#~ msgid "Editor_label"
+#~ msgstr "Editor"
+
+#~ msgid "Poem_dropdown_label"
+#~ msgstr "Choose"
