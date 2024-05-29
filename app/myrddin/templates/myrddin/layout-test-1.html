@@ -8,6 +8,7 @@
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: Georgia;
         }
         .header {
             background-color: #000;
@@ -16,9 +17,9 @@
             text-align: center;
         }
         .background-strip {
-            background-color: purple;
+            background-color: #4a114a;
             color: white;
-            height: 10rem;
+            height: 15rem;
             padding: 20px 0;
             text-align: left;
         }
@@ -27,24 +28,33 @@
             padding: 30px;
             margin: 30px auto;
             position: relative;
-            top: -99px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            top: -10.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         .content h1 {
             color: #fff;
             position: relative;
-            top: -99px
+            left: -30px;
+            top: -99px;
         }        
         .content h2 {
             color: #4b0082;
         }
-        .editor {
+        .meta-item {
+            display: inline-table;
+            margin-right: 15px;
             margin-bottom: 20px;
+            font-size: 1.3rem;
             font-style: italic;
             color: #6c757d;
+            vertical-align: top;
+        }        
+        .meta-item:after {
+            content: "/";
+            right: -7px;
+            position: relative;
         }
         .poem {
-            font-family: 'Times New Roman', Times, serif;
             font-size: 1.2rem;
         }
     </style>
@@ -55,10 +65,19 @@
     </div>
     <div class="background-strip"></div>
     <div class="container">
+        <header>
+            
+        </header>
         <div class="content">
             <h1>myrddin.cymru</h1>
-            <h2>5.I Cyfoesi Myrddin a Gwenddydd ei Chwaer</h2>
-            <div class="editor">Edited By Ben Guy</div>
+            <h2>5. Cyfoesi Myrddin a Gwenddydd ei Chwaer</h2>
+            <div class="entry-meta">
+                <div class="meta-item meta-editor">Edited By Ben Guy</div>
+                <div class="meta-item meta-cite">Cite</div>
+                <div class="meta-item meta-print">Print</div>
+                <div class="meta-item meta-full">Full Version</div>
+            </div>
+
             <div class="poem">
                 <p>[Myrddin:]<br>
                 1 Deuthum i attat y atraẃd ygnaded<br>
