@@ -4,38 +4,68 @@
 {% load flatpages %}
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="description"
-	content="A digital edition of poetry relating to Myrddin the magician">
-<title>{% block title %}{% endblock %}{{ flatpage.title }} {{ title }} - at Canu Myrddin</title>
-
-<!-- Google / Search Engine Tags -->
-<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }} {{ title }}">
-<meta itemprop="description" content="A digital edition of poetry relating to Myrddin the magician">
-<meta itemprop="image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
-
-<!-- Facebook Meta Tags -->
-<meta property="og:url" content="http://myrddin.swansea.ac.uk">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }} {{ title }}">
-<meta property="og:description" content="A digital edition of poetry relating to Myrddin the magician">
-<meta property="og:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
-
-<!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }} {{ title }}">
-<meta name="twitter:description" content="A digital edition of poerty relating to Myrddin the magician">
-<meta name="twitter:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
-<meta name="twitter:image:alt" content="Canu Myrddin image">
-<meta name="twitter:site" content="@myrddin_project">
 
 <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
 {% include "myrddin/bootstrap-css.html" %} 
-{% include "myrddin/myrddin-css.html" %}	
+	
+<style>
+	body {
+		background-color: #f8f9fa;
+		font-family: Georgia;
+	}
+	.header {
+		background-color: #000;
+		color: white;
+		padding: 20px 0;
+		text-align: center;
+	}
+	.background-strip {
+		background-color: #4a114a;
+		color: white;
+		height: 15rem;
+		padding: 20px 0;
+		text-align: left;
+	}
+	.content {
+		background-color: white;
+		padding: 30px;
+		margin: 30px auto;
+		position: relative;
+		top: -10.5rem;
+		box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	}
+	.content h1 {
+		color: #fff;
+		position: relative;
+		left: -30px;
+		top: -99px;
+	}        
+	.content h2 {
+		color: #4b0082;
+	}
+	.meta-item {
+		display: inline-table;
+		margin-right: 15px;
+		margin-bottom: 20px;
+		font-size: 1.3rem;
+		font-style: italic;
+		color: #6c757d;
+		vertical-align: top;
+	}        
+	.meta-item:after {
+		content: "/";
+		right: -7px;
+		position: relative;
+	}
+	.myrddin-nav {
+		padding: 30px;
+		margin: 30px auto;
+		position: relative;
+	}
+	.poem {
+		font-size: 1.2rem;
+	}
+</style>
 
 {% include "myrddin/tei-pub-css.html" %}
 {% include "myrddin/tei-pub-deps.html" %}
@@ -47,116 +77,102 @@
 </head>
 <body>
 <a href="#page-content" class="myrddin-skipTo">skip to content</a>
-	<div class="container-fluid">
-		<!-- Header-->	  
-		<div class="row myrddin-header">
-			<nav class="navbar navbar-expand-lg col-md-12 myrddin-nav">				
-			<a class="navbar-brand" href="/">
-			    <img src="/static/img/logo/myrddin-logo.jpg" height="60" alt="Myrddin Logo">
-			  </a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    		<span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
+<div class="header">
+	<nav class="navbar navbar-expand-lg col-md-12 myrddin-nav">				
+		<a class="navbar-brand" href="/">
+			<img src="/static/img/logo/myrddin-logo.jpg" height="60" alt="Myrddin Logo">
+		  </a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
 
-			  </button>				  			  			
-			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
-			    <ul class="navbar-nav">
-				    <li class="nav-item">
-   				      <a class="nav-link" href="/">{% trans "Link_top_nav_home" %}</a>
-				    </li>
-				    <li class="nav-item dropdown">		    
-			      		<a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_project" %}</a>
-						<div class="dropdown-menu" aria-labelledby="projectNavbarDropdown">
-						   <a class="dropdown-item" href="/project/about/">{% trans "Link_top_nav_about" %}</a>
-						   <a class="dropdown-item" href="/project/funders/">{% trans "Link_top_nav_funders" %}</a>
-						   <a class="dropdown-item" href="/project/team/">{% trans "Link_top_nav_project_team" %}</a>				   						   					   
-						</div>			      		
-				    </li>				    
-				    <li class="nav-item dropdown">			      
-			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_edition" %}</a>
-						<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
-						   <a class="dropdown-item" href="/introduction/">{% trans "Link_top_nav_introduction" %}</a>
-						   <a class="dropdown-item" href="/bibliography/">{% trans "Link_top_nav_bibliography" %}</a>			   						   
-						</div>			      		
-				    </li>		    				    			     
-			<!-- Poem Dropdown Menu -->			  
-					<form method="GET" action="/poem-view" id="poem-select">
-						<div class="form-group float-left">
-							<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
-								<option value="#">{% trans "dropdown_menu_poems" %}</option>
-								<option value="/poem/005">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
-								<option value="/poem/009">9 - A'th ofynnaf Ferddin, ddewin ddoniau</option>
-								<option value="/poem/010">10 - Sef y'th ofynnaf cyn gwasgod yr haf</option>
-								<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
-								<option value="/poem/019">19 - Byd a ddaw bryd wrth arfe</option>
-							</select>	
-						</div>					         								
-					</form>
-				<!-- Poem Dropdown Menu End -->					    
-				</ul>   
-			  </div>		  
-			</nav>				  		
-		</div>			
-		<!-- end of Header -->
-		<!-- Main Content-->
-		<div class="row myrddin-main-content">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-12">
-						<form action="{% url 'set_language' %}" method="post">  {#2#}
-							{% csrf_token %}  {#3#}
-							<select name="language">  {#4#}
-								{% get_current_language as LANGUAGE_CODE %}  {#5#}
-								{% get_available_languages as LANGUAGES %}  {#6#}
-								{% get_language_info_list for LANGUAGES as languages %}  {#7#}
-								{% for language in languages %}
-									<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>  {#8#}
-										{{ language.name_local }} ({{ language.code }})
-									</option>
-								{% endfor %}
-							</select>
-							<input type="submit" value="Switch">  {#9#}
-						</form>						
-						</p>
-					</div>
-			</div>
+		  </button>				  			  			
+		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					 <a class="nav-link" href="/">{% trans "Link_top_nav_home" %}</a>
+				</li>
+				<li class="nav-item dropdown">		    
+					  <a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_project" %}</a>
+					<div class="dropdown-menu" aria-labelledby="projectNavbarDropdown">
+					   <a class="dropdown-item" href="/project/about/">{% trans "Link_top_nav_about" %}</a>
+					   <a class="dropdown-item" href="/project/funders/">{% trans "Link_top_nav_funders" %}</a>
+					   <a class="dropdown-item" href="/project/team/">{% trans "Link_top_nav_project_team" %}</a>				   						   					   
+					</div>			      		
+				</li>				    
+				<li class="nav-item dropdown">			      
+					  <a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_edition" %}</a>
+					<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
+					   <a class="dropdown-item" href="/introduction/">{% trans "Link_top_nav_introduction" %}</a>
+					   <a class="dropdown-item" href="/bibliography/">{% trans "Link_top_nav_bibliography" %}</a>			   						   
+					</div>			      		
+				</li>		    				    			     
+		
+			 <!-- Language Switcher --> 
+			<form action="{% url 'set_language' %}" method="post">  {#2#}
+				{% csrf_token %}  {#3#}
+				<select name="language">  {#4#}
+					{% get_current_language as LANGUAGE_CODE %}  {#5#}
+					{% get_available_languages as LANGUAGES %}  {#6#}
+					{% get_language_info_list for LANGUAGES as languages %}  {#7#}
+					{% for language in languages %}
+						<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>  {#8#}
+							{{ language.name_local }} ({{ language.code }})
+						</option>
+					{% endfor %}
+				</select>
+				<input type="submit" value="Switch">  {#9#}
+			</form>
+			<!-- Language Switcher End -->					    
+			</ul>   
+		  </div>		  
+		</nav>	        
+</div>
+<div class="background-strip"></div>
 
-			<div class="col">
-				<div class="row">
-					<div class="main-title">
-						<h3>
-							<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
-								<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-								<pb-progress>Please wait - content is loading...</pb-progress>
-								<pb-view id="poem-left-content" type="single" src="myrddin" xpath="//div[@type='lev0'][@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" emit="myrddin" subscribe="myrddin" disable-history="true"/>
-							</pb-page>	
-						</h3>
-						<hr>
-					</div>
+<div class="content container">
+	<h1>myrddin.cymru</h1>
+	<!-- Main Content-->
+	<div class="row myrddin-main-content">
+		<div class="col">
+			<div class="row">
+				<div class="main-title">
+					<h2>
+						<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded" id="gwr">
+							<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
+							<pb-progress>Please wait - content is loading...</pb-progress>
+							<pb-view id="poem-left-content" type="single" src="myrddin" xpath="//div[@type='lev0'][@xml:id='myrddin_{{ myrddin_id }}_{{ poem_version }}_top']/head" emit="myrddin" subscribe="myrddin" disable-history="true"/>
+						</pb-page>	
+					</h2>
 				</div>
-			<!-- This is the top level TEI Publisher XML document call. All of the other pb-view components reference this -->
-			<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
-				<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
-			</pb-page>		
-			<!-- End -->						
-				<div class="row">
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col myrddin-left-content-wrapper overflow-auto">						
-								<div class="myrddin-left-content">
-									{% include "myrddin/poem-left.html" %}						
-								</div>
-							</div>								 
-						</div>		
-					</div>	
-					<div class="col-md-8 myrddin-right-content-wrapper">
-						<div class="myrddin-right-content">
-							{% include "myrddin/poem-right.html" %}	
-						</div>											
-					</div>
-				</div>	
 			</div>
+		<!-- This is the top level TEI Publisher XML document call. All of the other pb-view components reference this -->
+		<pb-page endpoint="https://dh-existdb.swansea.ac.uk/exist/apps/myrddin" emit="myrddin" class="embedded">
+			<pb-document id="myrddin" path="myrddin_{{ myrddin_id }}.xml" odd="myrddin"></pb-document>
+		</pb-page>		
+		<!-- End -->						
+			<div class="row">
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col myrddin-left-content-wrapper overflow-auto">						
+							<div class="myrddin-left-content">
+								<section>
+								{% include "myrddin/poem-left.html" %}		
+								</section>				
+							</div>
+						</div>								 
+					</div>		
+				</div>	
+				<div class="col-md-8 myrddin-right-content-wrapper d-none">
+					<div class="myrddin-right-content">
+						<section>
+						{% include "myrddin/poem-right.html" %}
+						</section>
+					</div>											
+				</div>
+			</div>	
 		</div>
 	</div>
+</div>
 		<!-- end Main Content-->
 		<!-- Footer -->
 		<div class="row myrddin-footer">
