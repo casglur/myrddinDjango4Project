@@ -184,67 +184,37 @@
 							<!--Right Container Start-->
 							<div class="right-poem-container">
 								<!-- Tab navs -->
-								<ul class="nav nav-tabs" id="poem-tabs-links">
-									<li class="nav-item">
-										<a class="nav-link active" href="#trosolwg" data-toggle="tab">{% trans "Tab_overview_notes_label" %}</a>
+								<ul class="nav nav-tabs" id="foo" role="tablist">
+									<li class="nav-item" role="presentation">
+									  <button class="nav-link active" id="trosolwg-tab" data-bs-toggle="tab" data-bs-target="#trosolwg-tab-pane" type="button" role="tab" aria-controls="trosolwg-tab-pane" aria-selected="true">Home</button>
 									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#cefndir" data-toggle="tab">{% trans "Tab_background_notes_label" %}</a>
-									</li>								
-									<li class="nav-item">
-										<a class="nav-link" href="#aralleiriad" data-toggle="tab">{% trans "Tab_paraphrase_label" %}</a>
-									</li>		
-									<li class="nav-item">
-										<a class="nav-link" href="#translation" data-toggle="tab">{% trans "Tab_translation_label" %}</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-target="#esboniadol" data-toggle="tab">{% trans "Tab_explanatory_notes_label" %}</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-target="#testunol" data-toggle="tab">{% trans "Tab_text_notes_label" %}</a>
-									</li>		
-									<li class="nav-item">
-										<a class="nav-link" data-target="#llawysgrifau" data-toggle="tab">{% trans "Tab_manuscripts_label" %}</a>
-									</li>																						
+									<li class="nav-item" role="presentation">										
+										<button class="nav-link" id="cefndir-tab" data-bs-toggle="tab" data-bs-target="#cefndir-tab-pane" type="button" role="tab" aria-controls="cefndir-tab-pane" aria-selected="false">{% trans "Tab_background_notes_label" %}</button>
+									</li>					
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="aralleiriad-tab" data-bs-toggle="tab" data-bs-target="#aralleiriad-tab-pane" type="button" role="tab" aria-controls="aralleiriad-tab-pane" aria-selected="false">{% trans "Tab_paraphrase_label" %}</button>
+									</li>																							
 								</ul>
 								<!-- Tab navs End -->
 								<br>
 								<!-- Tab panes -->
 								<div class="tab-content">
-									<div class="tab-pane fade active show" id="trosolwg">
+									<div class="tab-pane fade show active" id="trosolwg-tab-pane" role="tabpanel" aria-labelledby="trosolwg-tab" tabindex="0">
 										<div class="poems-container">		
 											Trosolwg
 										</div>
 									</div>
-									<div class="tab-pane fade" id="cefndir">
+									<div class="tab-pane fade" id="cefndir-tab-pane" role="tabpanel" aria-labelledby="cefndir-tab" tabindex="0">
 										<div class="poems-container">		
 											Cefndir	
 										</div>
 									</div>										
-									<div class="tab-pane fade" id="aralleiriad">
+ 
+									<div class="tab-pane fade" id="aralleiriad-tab-pane" role="tabpanel" aria-labelledby="aralleiriad-tab" tabindex="0">
 										<div class="poems-container">
 											Aralleiriad
 										</div>
 									</div>	
-									<div class="tab-pane fade" id="translation">
-										<div class="poems-container">
-											Translation    
-										</div>
-									</div>		
-									<div class="tab-pane fade" id="esboniadol">
-										Esboniadol   
-										</div>
-									</div>
-									<div class="tab-pane fade" id="testunol">
-										<div class="poems-container">
-											Testunol    
-										</div>
-									</div>			
-									<div class="tab-pane fade" id="llawysgrifau">
-										<div class="poems-container">
-											Llawysgrifau
-										</div>
-									</div>
 								</div>
 								<!-- Tab panes End -->
 							</div>
