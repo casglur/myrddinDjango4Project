@@ -1,0 +1,50 @@
+{% extends "myrddin/base.html" %}
+
+{% block title %}Locations{% endblock %}
+
+{% block page_content %}
+
+<div class="row">
+    <div class="col-sm">
+        <h1>Locations</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Standard name</th>
+                    <th scope="col">Welsh definition</th>
+                    <th scope="col">English definition</th>
+                    <th scope="col">Map link</th>
+                </tr>
+            </thead>
+            {% for item in objs %}
+            <tr id="{{ item.id }}" data-index="{{ item.id }}"> 
+                <th scope="row">{{ item.id }}</td>
+                <td>{{ item.standard_form }}</td>
+                <td>{{ item.welsh_definition }}</td>
+                <td>{{ item.english_definition }}</td>
+                <td><a href="http://www.openstreetmap.org/?mlat={{ item.latitude }}&mlon={{ item.longitude }}&zoom=12" target="_blank">Map</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<script>
+    // Highlight the location that was clicked on
+    function highlight(my_id) {
+    $('tr[data-index="'+ my_id +'"]').each(function(){
+        //do highlight here
+        $(this).addClass('bg-warning');
+    })
+    }
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var locationId = urlParams.get('l');
+    console.log(locationId);
+    highlight(locationId);
+
+    // Scroll to the location that was passed in the URL
+    document.getElementById(locationId).scrollIntoView({behavior: 'smooth'});
+</script>
+{% endblock %}

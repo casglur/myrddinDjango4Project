@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load static %}
+{% load flatpages %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description"
+	content="A digital edition of poetry relating to Myrddin the magician">
+<title>{% block title %}{% endblock %}{{ flatpage.title }} {{ title }} - at Canu Myrddin</title>
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="{% block google %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta itemprop="description" content="A digital edition of poetry relating to Myrddin the magician">
+<meta itemprop="image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://myrddin.swansea.ac.uk">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block facebook %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta property="og:description" content="A digital edition of poetry relating to Myrddin the magician">
+<meta property="og:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter %}{% endblock %}{{ flatpage.title }} {{ title }}">
+<meta name="twitter:description" content="A digital edition of poerty relating to Myrddin the magician">
+<meta name="twitter:image" content="http://myrddin.swansea.ac.uk/static/img/logo/myrddin-logo-google-search.png">
+<meta name="twitter:image:alt" content="Canu Myrddin image">
+<meta name="twitter:site" content="@myrddin_project">
+
+<link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
+{% include "myrddin/bootstrap-css.html" %} 
+{% include "myrddin/myrddin-css.html" %}	
+
+{% include "myrddin/tei-pub-css.html" %}
+{% include "myrddin/tei-pub-deps.html" %}
+
+{% include "myrddin/myrddin-js-head.html" %}
+{% include "myrddin/bootstrap-js.html" %}
+{% include "myrddin/myrddin-blockUI.html" %}
+
+</head>
+<body>
+<a href="#page-content" class="myrddin-skipTo">skip to content</a>
+	<div class="container-fluid">
+		<!-- Header-->	  
+		<div class="row myrddin-header">
+			<nav class="navbar navbar-expand-lg col-md-12 myrddin-nav">				
+			<a class="navbar-brand" href="/">
+			    <img src="/static/img/logo/myrddin-logo.jpg" height="60" alt="Myrddin Logo">
+			  </a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff"></i></span>
+
+			  </button>				  			  			
+			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">		    	
+			    <ul class="navbar-nav">
+				    <li class="nav-item">
+   				      <a class="nav-link" href="/">{% trans "Link_top_nav_home" %}</a>
+				    </li>
+				    <li class="nav-item dropdown">		    
+			      		<a class="nav-link dropdown-toggle" href="#" id="projectNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_project" %}</a>
+						<div class="dropdown-menu" aria-labelledby="projectNavbarDropdown">
+						   <a class="dropdown-item" href="/project/about/">{% trans "Link_top_nav_about" %}</a>
+						   <a class="dropdown-item" href="/project/funders/">{% trans "Link_top_nav_funders" %}</a>
+						   <a class="dropdown-item" href="/project/team/">{% trans "Link_top_nav_project_team" %}</a>				   						   					   
+						</div>			      		
+				    </li>				    
+				    <li class="nav-item dropdown">			      
+			      		<a class="nav-link dropdown-toggle" href="#" id="editionNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Link_top_nav_the_edition" %}</a>
+						<div class="dropdown-menu" aria-labelledby="editionNavbarDropdown">
+						   <a class="dropdown-item" href="/introduction/">{% trans "Link_top_nav_introduction" %}</a>
+						   <a class="dropdown-item" href="/bibliography/">{% trans "Link_top_nav_bibliography" %}</a>			   						   
+						</div>			      		
+				    </li>		    				    			     
+			<!-- Poem Dropdown Menu -->			  
+					<form method="GET" action="/poem-view" id="poem-select">
+						<div class="form-group float-left">
+							<select class="form-select" aria-label="Default select example" id="poem-selection" name="poem-selection">
+								<option value="#">{% trans "dropdown_menu_poems" %}...</option>
+								<option value="/poem/005">5 - Cyfoesi Myrddin a Gwenddydd ei Chwaer</option>
+								<option value="/poem/009">9 - A'th ofynnaf Ferddin, ddewin ddoniau</option>
+								<option value="/poem/010">10 - Sef y'th ofynnaf cyn gwasgod yr haf</option>
+								<option value="/poem/011">11 - Ac yno y cyfyd llu o'r mynydd</option>
+								<option value="/poem/019">19 - Byd a ddaw bryd wrth arfe</option>
+							</select>	
+						</div>					         								
+					</form>
+				<!-- Poem Dropdown Menu End -->					    
+				</ul>   
+			  </div>		  
+			</nav>				  		
+		</div>			
+		<!-- end of Header -->
+		<!-- Main Content-->
+		{% block page_content %}{% endblock %}
+		<!-- end Main Content-->
+		<!-- Footer -->
+		<div class="row myrddin-footer">
+			<div class="col-md-12 hosting-rights">
+				<p class="text-center">Developed, Hosted and published on behalf of Canu Myrddin by the <a href="https://www.swansea.ac.uk/digital-humanities/" target="blank">Digital Humanities Team at Swansea University</a> | <a href="/project/about/" target="blank"> Copyright&copy; myrddin</a></p>
+			</div>
+			<div class="col-md-12 funders-strip">
+				<p class="text-center">
+					<span class="funder-logo"><a href="https://ahrc.ukri.org/" target="_blank"><img width="200" height="133" src="/static/img/funders/art-humanities-council-logo-300x200.jpg" alt="Arts and Humanities Research Council"></a></span>
+				</p>
+			</div>			
+		</div>
+</div>
+{% include "myrddin/myrddin-cookie-notice.html" %}
+{% include "myrddin/myrddin-js.html" %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "http://myrddin.swansea.ac.uk/",
+	"name": "Merlin Poetry Project (myrddin)",
+	"description": "The complete Merlin poetry",
+	"subjectOf": "Merlin - Myrddin",
+	"temporalCoverage": "1400-1850",
+	"producer": "Cardiff University, Swansea University and University of Wales Trinity Saint David",
+	"provider": "Digital Humanities Team at Swansea University",
+	"publisher": "Digital Humanities Team at Swansea University",
+	"genre": "Poetry",
+	"thumbnailUrl": "http://myrddin.swansea.ac.uk/static/img/logo/logo-2-web-ready.png"
+}
+</script> 
+</body>
+</html>
