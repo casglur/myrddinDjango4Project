@@ -1,16 +1,67 @@
 {% extends "myrddin/base.html" %}
 
 {% block page_content %}
-<div>
-<h2>Locations</h2>
-<h4>Craig yr Yri</h4>
-<p>enw cynnar ar Eryri	</p>
-<p>an early name for Eryri or Snowdonia</p>
-<h4>Tywi</h4>
-<p>afon Tywi, yn tarddu yng Ngheredigion ac yn llifo i'r môr ger castell Llansteffan yn sir Gaerfyrddin</p>
-<p>the river Tywi, which rises in Ceredigion and flows into the sea near Llanstephan castle in Carmarthenshire</p>
-</div>
+<!--Right Container Start-->
+<div class="right-poem-container">
+    <!-- Tab navs -->
+    <ul class="nav nav-tabs" id="foo" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="trosolwg-tab" data-bs-toggle="tab" data-bs-target="#trosolwg-tab-pane" type="button" role="tab" aria-controls="trosolwg-tab-pane" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">										
+            <button class="nav-link" id="cefndir-tab" data-bs-toggle="tab" data-bs-target="#cefndir-tab-pane" type="button" role="tab" aria-controls="cefndir-tab-pane" aria-selected="false">Foo</button>
+        </li>					
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="aralleiriad-tab" data-bs-toggle="tab" data-bs-target="#aralleiriad-tab-pane" type="button" role="tab" aria-controls="aralleiriad-tab-pane" aria-selected="false">Bar</button>
+        </li>																							
+    </ul>
+    <!-- Tab navs End -->
+    <br>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="trosolwg-tab-pane" role="tabpanel" aria-labelledby="trosolwg-tab" tabindex="0">
+            <div class="poems-container">		
+                Trosolwg
+            </div>
+        </div>
+        <div class="tab-pane fade" id="cefndir-tab-pane" role="tabpanel" aria-labelledby="cefndir-tab" tabindex="0">
+            <div class="poems-container">		
+                Cefndir
 
+                <div id="iframe-wrapper" style="position: relative;width: 100%;height: 85%;">
+                    <iframe src="https://viewer.library.wales/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/4781774/manifest.json&amp;c=0&amp;m=0&amp;cv=59&amp;r=0" allowfullscreen="" frameborder="0""/>
+                  </div>
+                  <div id="manuscript-page-number" style="padding-top: 20px;">
+                    <p>[Page [[page-number]]] | <a target="_blank" href="https://viewer.library.wales/uv.html#?manifest=https://damsssl.llgc.org.uk/iiif/2.0/[[facs-manuscript]]/manifest.json&amp;c=0&amp;m=0&amp;cv=[[facs-page]]&amp;r=0">Open in new window</a></p>
+                  </div> 
+
+            </div>
+        </div>										
+
+        <div class="tab-pane fade" id="aralleiriad-tab-pane" role="tabpanel" aria-labelledby="aralleiriad-tab" tabindex="0">
+            <div class="poems-container">
+                Aralleiriad
+            </div>
+        </div>	
+    </div>
+    <!-- Tab panes End -->
+</div>
+<!--Right Container End-->	
+
+<script>
+    document.querySelectorAll('#myTab a').forEach(function(ele){
+  ele.onclick = function(){
+    var iframe = document.querySelector(this.dataset.target+'>iframe');
+    iframe.src = iframe.src+'';
+  }
+});
+
+['#trosolwg-tab-pane', '#cefndir-tab-pane', '#aralleiriad-tab-pane'].forEach(function(ele){
+  document.querySelector(ele+' iframe').addEventListener('load', function(){
+    console.log(ele + " loaded");
+  });
+})
+</script>
 
 {% endblock %}
 
